@@ -1,0 +1,24 @@
+{
+  "name": "bitx",
+  "version": "0.1.0",
+  "author": "Brett Ausmeier <brett@ausmeier.co.za>",
+  "description": "A simple wrapper for the BitX API.",
+  "keywords": [
+    "bitcoin",
+    "bitx",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bausmeier/node-bitx.git"
+  },
+  "main": "./lib/BitX",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "sinon": "~1.7.3",
+    "chai": "~1.8.1"
+  }
+}
