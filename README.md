@@ -1,4 +1,6 @@
 # node-bitx
+[![Build Status](https://travis-ci.org/bausmeier/node-bitx.png)](https://travis-ci.org/bausmeier/node-bitx)
+
 A simple wrapper for the BitX API.
 
 ## Methods
