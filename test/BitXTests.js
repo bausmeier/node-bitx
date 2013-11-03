@@ -180,4 +180,13 @@ describe('External', function() {
       mock.verify();
     });
   });
+  
+  describe('getLimits', function() {
+    
+    it('should call _request with the correct parameters', function() {
+      mock.expects('_request').once().withArgs('getlimits', callback);
+      bitx.getLimits(callback);
+      mock.verify();
+    });
+  });
 });
