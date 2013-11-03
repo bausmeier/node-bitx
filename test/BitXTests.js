@@ -1,3 +1,5 @@
+'use strict';
+
 var BitX = require('../lib/BitX'),
     https = require('https'),
     sinon = require('sinon'),
@@ -33,19 +35,50 @@ describe('Constructor', function() {
     expect(bitx.hostname).to.equal(options.hostname);
     expect(bitx.port).to.equal(options.port);
   });
+  
+  it('should accept auth and options', function() {
+    var keyId = 'cnz2yjswbv3jd',
+        keySecret = '0hydMZDb9HRR3Qq-iqALwZtXLkbLR4fWxtDZvkB9h4I',
+        options = {
+          hostname: 'localhost',
+          port: 8000,
+        };
+    var bitx = new BitX(keyId, keySecret, options);
+    expect(bitx.hostname).to.equal(options.hostname);
+    expect(bitx.port).to.equal(options.port);
+    expect(bitx.auth).to.equal(keyId + ':' + keySecret);
+  });
 });
 
-describe('Private methods', function() {
+describe('Internal', function() {
+  
   var bitx,
+      get,
       stub;
+
+  var keyId = '12345',
+      keySecret = '0000000000000000',
+      path = 'test';
+  
+  var expectedOptions = {
+    headers: {
+      'Accept': 'application/json',
+      'Accept-Charset': 'utf-8'
+    },
+    hostname: 'bitx.co.za',
+    path: '/api/1/BTCZAR/' + path,
+    port: 443,
+    auth: keyId + ':' + keySecret
+  };
   
   before(function() {
-    bitx = new BitX();
-    stub = sinon.stub(https, 'get');
+    bitx = new BitX(keyId, keySecret);
+    get = sinon.stub(https, 'get'),
+    stub = get.withArgs(sinon.match(expectedOptions));
   });
   
   after(function() {
-    stub.restore();
+    get.restore();
   });
   
   afterEach(function() {
@@ -53,8 +86,6 @@ describe('Private methods', function() {
   });
   
   describe('_request', function() {
-    
-    var path = '';
     
     it('should return the expected result', function(done) {
       var expectedResult = {success: true};
@@ -100,7 +131,7 @@ describe('Private methods', function() {
   });
 });
 
-describe('Public methods', function() {
+describe('External', function() {
   var bitx,
       mock;
   
