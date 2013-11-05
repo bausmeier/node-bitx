@@ -53,7 +53,7 @@ describe('Constructor', function() {
 describe('Internal', function() {
   
   var bitx,
-      get,
+      request,
       stub;
 
   var keyId = '12345',
@@ -73,12 +73,12 @@ describe('Internal', function() {
   
   before(function() {
     bitx = new BitX(keyId, keySecret);
-    get = sinon.stub(https, 'get'),
-    stub = get.withArgs(sinon.match(expectedOptions));
+    request = sinon.stub(https, 'request'),
+    stub = request.withArgs(sinon.match(expectedOptions));
   });
   
   after(function() {
-    get.restore();
+    request.restore();
   });
   
   afterEach(function() {
@@ -90,7 +90,7 @@ describe('Internal', function() {
     it('should return the expected result', function(done) {
       var expectedResult = {success: true};
       stub.returns(new FakeRequest(expectedResult));
-      bitx._request(path, function(err, result) {
+      bitx._request('GET', path, function(err, result) {
         expect(err).to.be.null;
         expect(result).to.eql(expectedResult);
         done();
@@ -99,7 +99,7 @@ describe('Internal', function() {
     
     it('should return an error if request emits an error', function(done) {
       stub.returns(new FakeRequest(null, {fail: true}));
-      bitx._request(path, function(err, result) {
+      bitx._request('GET', path, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -107,7 +107,7 @@ describe('Internal', function() {
     
     it('should return an error if the response is not valid', function(done) {
       stub.returns(new FakeRequest('invalid'));
-      bitx._request(path, function(err, result) {
+      bitx._request('GET', path, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -115,7 +115,7 @@ describe('Internal', function() {
     
     it('should return an error if the response contains an error', function(done) {
       stub.returns(new FakeRequest({error: true}));
-      bitx._request(path, function(err, result) {
+      bitx._request('GET', path, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -123,7 +123,7 @@ describe('Internal', function() {
     
     it('should return an error if the response is unauthorized', function(done) {
       stub.returns(new FakeRequest(null, {statusCode: 401}));
-      bitx._request(path, function(err, result) {
+      bitx._request('GET', path, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -148,7 +148,7 @@ describe('External', function() {
   describe('getTicker', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('ticker', callback);
+      mock.expects('_request').once().withArgs('GET', 'ticker', callback);
       bitx.getTicker(callback);
       mock.verify();
     });
@@ -157,7 +157,7 @@ describe('External', function() {
   describe('getOrderBook', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('orderbook', callback);
+      mock.expects('_request').once().withArgs('GET', 'orderbook', callback);
       bitx.getOrderBook(callback);
       mock.verify();
     });
@@ -166,7 +166,7 @@ describe('External', function() {
   describe('getTrades', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('trades', callback);
+      mock.expects('_request').once().withArgs('GET', 'trades', callback);
       bitx.getTrades(callback);
       mock.verify();
     });
@@ -175,7 +175,7 @@ describe('External', function() {
   describe('getOrderList', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('listorders', callback);
+      mock.expects('_request').once().withArgs('GET', 'listorders', callback);
       bitx.getOrderList(callback);
       mock.verify();
     });
@@ -184,7 +184,7 @@ describe('External', function() {
   describe('getLimits', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('getlimits', callback);
+      mock.expects('_request').once().withArgs('GET', 'getlimits', callback);
       bitx.getLimits(callback);
       mock.verify();
     });
