@@ -52,6 +52,6 @@ POST https://bitx.co.za/api/1/BTCZAR/stoporder
 
 ## Contributing
 
-Like my work? Please donate 1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz.
+Like my work? Please donate **1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz**.
 
 Don't like it? Open a pull request or create an issue and help me improve it.
