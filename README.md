@@ -47,7 +47,7 @@ POST https://bitx.co.za/api/1/BTCZAR/postorder
 ### postSellOrder(volume, price, callback)
 POST https://bitx.co.za/api/1/BTCZAR/postorder
 
-### stopOrder(orderId, price, callback)
+### stopOrder(orderId, callback)
 POST https://bitx.co.za/api/1/BTCZAR/stoporder
 
 ## Contributing
