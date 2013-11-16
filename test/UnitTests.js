@@ -189,4 +189,44 @@ describe('External', function() {
       mock.verify();
     });
   });
+  
+  describe('postBuyOrder', function() {
+    
+    it('should call _request with the correct parameters', function() {
+      var parameters = {
+        type: 'BID',
+        volume: 9999.99,
+        price: 0.001
+      };
+      mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
+      bitx.postBuyOrder(parameters.volume, parameters.price, callback);
+      mock.verify();
+    });
+  });
+  
+  describe('postSellOrder', function() {
+    
+    it('should call _request with the correct parameters', function() {
+      var parameters = {
+        type: 'ASK',
+        volume: 0.001,
+        price: 9999.99
+      };
+      mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
+      bitx.postSellOrder(parameters.volume, parameters.price, callback);
+      mock.verify();
+    });
+  });
+  
+  describe('stopOrder', function() {
+    
+    it('should call _request with the correct parameters', function() {
+      var body = {
+        order_id: 'BXMC2CJ7HNB88U4'
+      };
+      mock.expects('_request').once().withArgs('POST', 'stoporder', body, callback);
+      bitx.stopOrder(body.order_id, callback);
+      mock.verify();
+    });
+  });
 });

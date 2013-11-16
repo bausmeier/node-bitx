@@ -10,7 +10,7 @@ Add bitx as a dependency:
 $ npm install --save bitx
 ```
 
-### BitX([keyId, keySecret,][options])
+### BitX([keyId, keySecret, ][options])
 To access the private BitX API methods you must supply your key id and key secret as the first two arguments. If you are only accessing the public API endpoints you can leave these two arguments out.
 
 The optional options argument can be used to override the default options. The default options are equivalent to:
@@ -18,7 +18,8 @@ The optional options argument can be used to override the default options. The d
 ```javascript
 {
   hostname: 'bitx.co.za',
-  port: 443
+  port: 443,
+  ca: undefined
 }
 ```
 
@@ -36,6 +37,18 @@ GET https://bitx.co.za/api/1/BTCZAR/trades
 
 ### getOrderList(callback)
 GET https://bitx.co.za/api/1/BTCZAR/listorders
+
+### getLimits(callback)
+GET https://bitx.co.za/api/1/BTCZAR/listorders
+
+### postBuyOrder(volume, price, callback)
+POST https://bitx.co.za/api/1/BTCZAR/postorder
+
+### postSellOrder(volume, price, callback)
+POST https://bitx.co.za/api/1/BTCZAR/postorder
+
+### stopOrder(orderId, price, callback)
+POST https://bitx.co.za/api/1/BTCZAR/stoporder
 
 ## Contributing
 
