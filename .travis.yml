@@ -2,7 +2,7 @@ language: node_js
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/c1b42c0bb7e35e032f40
+      - https://webhooks.gitter.im/e/b2dc8b82cf866f2a919a
     on_success: change
     on_failure: always
     on_start: false
