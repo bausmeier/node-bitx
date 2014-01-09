@@ -26,11 +26,17 @@ The optional options argument can be used to override the default options. The d
 ## Methods
 For details about the API endpoints see https://bitx.co.za/api.
 
+### Callbacks
+The arguments passed to the callback function for each method are:
+
+1. An error or `null` if no error occurred.
+1. An object containing the data returned by the BitX API.
+
 ### getTicker(callback)
 GET https://bitx.co.za/api/1/BTCZAR/ticker
 
 ### getOrderBook(callback)
-GET https://bitx.co.za/api/1/BTCZAR/orderbook 
+GET https://bitx.co.za/api/1/BTCZAR/orderbook
 
 ### getTrades(callback)
 GET https://bitx.co.za/api/1/BTCZAR/trades
