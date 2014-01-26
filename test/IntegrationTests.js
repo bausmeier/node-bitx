@@ -288,11 +288,11 @@ describe('BitX', function() {
 
     it('should return the balance', function(done) {
       var expectedBalances = {
-	  balance: [{
-	    asset: 'ZAR',
-	    balance: '1000.00',
-	    reserved: '800.00'
-	  }]
+        balance: [{
+          asset: 'ZAR',
+          balance: '1000.00',
+          reserved: '800.00'
+        }]
       };
 
       server.on('request', function(req, res) {

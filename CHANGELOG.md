@@ -1,4 +1,4 @@
-### 1.0.2
+### 1.1.0
 
 * Support multiple currency pairs
 * BitX.getLimits is now deprecated (use BitX.getBalance instead).
