@@ -283,4 +283,27 @@ describe('BitX', function() {
       });
     });
   });
+
+  describe('getBalance', function() {
+
+    it('should return the balance', function(done) {
+      var expectedBalances = {
+	  balance: [{
+	    asset: 'ZAR',
+	    balance: '1000.00',
+	    reserved: '800.00'
+	  }]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('url', '/api/1/balance?asset=ZAR');
+        res.end(JSON.stringify(expectedBalances));
+      });
+
+      bitx.getBalance('ZAR', function(err, balances) {
+        expect(balances).to.eql(expectedBalances);
+        done(err);
+      });
+    });
+  });
 });
