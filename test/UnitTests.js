@@ -24,16 +24,19 @@ describe('Constructor', function() {
     var bitx = new BitX();
     expect(bitx.hostname).to.equal('bitx.co.za');
     expect(bitx.port).to.equal(443);
+    expect(bitx.pair).to.equal('XBTZAR');
   });
   
   it('should accept options', function() {
     var options = {
       hostname: 'localhost',
-      port: 8000
+      port: 8000,
+      pair: 'XBTUSD',
     };
     var bitx = new BitX(options);
     expect(bitx.hostname).to.equal(options.hostname);
     expect(bitx.port).to.equal(options.port);
+    expect(bitx.pair).to.equal(options.pair);
   });
   
   it('should accept auth and options', function() {
@@ -42,10 +45,12 @@ describe('Constructor', function() {
         options = {
           hostname: 'localhost',
           port: 8000,
+          pair: 'XBTUSD',
         };
     var bitx = new BitX(keyId, keySecret, options);
     expect(bitx.hostname).to.equal(options.hostname);
     expect(bitx.port).to.equal(options.port);
+    expect(bitx.pair).to.equal(options.pair);
     expect(bitx.auth).to.equal(keyId + ':' + keySecret);
   });
 });
@@ -66,7 +71,7 @@ describe('Internal', function() {
       'Accept-Charset': 'utf-8'
     },
     hostname: 'bitx.co.za',
-    path: '/api/1/BTCZAR/' + path,
+    path: '/api/1/' + path,
     port: 443,
     auth: keyId + ':' + keySecret
   };
@@ -90,7 +95,7 @@ describe('Internal', function() {
     it('should return the expected result', function(done) {
       var expectedResult = {success: true};
       stub.returns(new FakeRequest(expectedResult));
-      bitx._request('GET', path, function(err, result) {
+      bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.null;
         expect(result).to.eql(expectedResult);
         done();
@@ -99,7 +104,7 @@ describe('Internal', function() {
     
     it('should return an error if request emits an error', function(done) {
       stub.returns(new FakeRequest(null, {fail: true}));
-      bitx._request('GET', path, function(err, result) {
+      bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -107,7 +112,7 @@ describe('Internal', function() {
     
     it('should return an error if the response is not valid', function(done) {
       stub.returns(new FakeRequest('invalid'));
-      bitx._request('GET', path, function(err, result) {
+      bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -115,7 +120,7 @@ describe('Internal', function() {
     
     it('should return an error if the response contains an error', function(done) {
       stub.returns(new FakeRequest({error: true}));
-      bitx._request('GET', path, function(err, result) {
+      bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -123,7 +128,7 @@ describe('Internal', function() {
     
     it('should return an error if the response is unauthorized', function(done) {
       stub.returns(new FakeRequest(null, {statusCode: 401}));
-      bitx._request('GET', path, function(err, result) {
+      bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -148,7 +153,8 @@ describe('External', function() {
   describe('getTicker', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('GET', 'ticker', callback);
+      mock.expects('_request').once().withArgs(
+        'GET', 'ticker', {pair: 'XBTZAR'}, callback);
       bitx.getTicker(callback);
       mock.verify();
     });
@@ -157,7 +163,8 @@ describe('External', function() {
   describe('getOrderBook', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('GET', 'orderbook', callback);
+      mock.expects('_request').once().withArgs(
+        'GET', 'orderbook', {pair: 'XBTZAR'}, callback);
       bitx.getOrderBook(callback);
       mock.verify();
     });
@@ -166,7 +173,8 @@ describe('External', function() {
   describe('getTrades', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('GET', 'trades', callback);
+      mock.expects('_request').once().withArgs(
+        'GET', 'trades', {pair: 'XBTZAR'}, callback);
       bitx.getTrades(callback);
       mock.verify();
     });
@@ -175,7 +183,8 @@ describe('External', function() {
   describe('getOrderList', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('GET', 'listorders', callback);
+      mock.expects('_request').once().withArgs(
+        'GET', 'listorders', {pair: 'XBTZAR'}, callback);
       bitx.getOrderList(callback);
       mock.verify();
     });
@@ -184,19 +193,21 @@ describe('External', function() {
   describe('getLimits', function() {
     
     it('should call _request with the correct parameters', function() {
-      mock.expects('_request').once().withArgs('GET', 'getlimits', callback);
+      mock.expects('_request').once().withArgs(
+        'GET', 'BTCZAR/getlimits', null, callback);
       bitx.getLimits(callback);
       mock.verify();
     });
   });
-  
+
   describe('postBuyOrder', function() {
     
     it('should call _request with the correct parameters', function() {
       var parameters = {
         type: 'BID',
         volume: 9999.99,
-        price: 0.001
+        price: 0.001,
+        pair: 'XBTZAR'
       };
       mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
       bitx.postBuyOrder(parameters.volume, parameters.price, callback);
@@ -210,7 +221,8 @@ describe('External', function() {
       var parameters = {
         type: 'ASK',
         volume: 0.001,
-        price: 9999.99
+        price: 9999.99,
+        pair: 'XBTZAR'
       };
       mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
       bitx.postSellOrder(parameters.volume, parameters.price, callback);

@@ -51,7 +51,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/ticker');
+        expect(req).to.have.property('url', '/api/1/ticker?pair=XBTZAR');
         res.end(JSON.stringify(expectedTicker));
       });
 
@@ -80,7 +80,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/orderbook');
+        expect(req).to.have.property('url', '/api/1/orderbook?pair=XBTZAR');
         res.end(JSON.stringify(expectedOrderBook));
       });
 
@@ -103,7 +103,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/trades');
+        expect(req).to.have.property('url', '/api/1/trades?pair=XBTZAR');
         res.end(JSON.stringify(expectedTrades));
       });
 
@@ -136,7 +136,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/listorders');
+        expect(req).to.have.property('url', '/api/1/listorders?pair=XBTZAR');
         res.end(JSON.stringify(expectedOrderList));
       });
 
@@ -175,7 +175,7 @@ describe('BitX', function() {
       var price = 0.0001;
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/postorder');
+        expect(req).to.have.property('url', '/api/1/postorder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
@@ -186,6 +186,7 @@ describe('BitX', function() {
           expect(body).to.have.property('type', 'BID');
           expect(body).to.have.property('volume', volume.toString());
           expect(body).to.have.property('price', price.toString());
+          expect(body).to.have.property('pair', 'XBTZAR');
           res.end(JSON.stringify(expectedOrder));
         });
       });
@@ -200,7 +201,7 @@ describe('BitX', function() {
       var expectedError = 'Order would exceed your order limits.';
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/postorder');
+        expect(req).to.have.property('url', '/api/1/postorder');
         res.end(JSON.stringify({error: expectedError}));
       });
 
@@ -219,7 +220,7 @@ describe('BitX', function() {
       var price = 9999.99;
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/postorder');
+        expect(req).to.have.property('url', '/api/1/postorder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
@@ -230,6 +231,7 @@ describe('BitX', function() {
           expect(body).to.have.property('type', 'ASK');
           expect(body).to.have.property('volume', volume.toString());
           expect(body).to.have.property('price', price.toString());
+          expect(body).to.have.property('pair', 'XBTZAR');
           res.end(JSON.stringify(expectedOrder));
         });
       });
@@ -248,7 +250,7 @@ describe('BitX', function() {
       var orderId = 'BXMC2CJ7HNB88U4';
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/stoporder');
+        expect(req).to.have.property('url', '/api/1/stoporder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
@@ -271,7 +273,7 @@ describe('BitX', function() {
       var expectedError = 'Cannot stop unknown or non-pending order';
 
       server.on('request', function(req, res) {
-        expect(req).to.have.property('url', '/api/1/BTCZAR/stoporder');
+        expect(req).to.have.property('url', '/api/1/stoporder');
         res.end(JSON.stringify({error: expectedError}));
       });
 
