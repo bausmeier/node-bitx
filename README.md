@@ -19,7 +19,8 @@ The optional options argument can be used to override the default options. The d
 {
   hostname: 'bitx.co.za',
   port: 443,
-  ca: undefined
+  ca: undefined,
+  pair: 'XBTZAR'
 }
 ```
 
@@ -33,28 +34,28 @@ The arguments passed to the callback function for each method are:
 1. An object containing the data returned by the BitX API.
 
 ### getTicker(callback)
-GET https://bitx.co.za/api/1/BTCZAR/ticker
+GET https://bitx.co.za/api/1/ticker
 
 ### getOrderBook(callback)
-GET https://bitx.co.za/api/1/BTCZAR/orderbook
+GET https://bitx.co.za/api/1/orderbook
 
 ### getTrades(callback)
-GET https://bitx.co.za/api/1/BTCZAR/trades
+GET https://bitx.co.za/api/1/trades
 
 ### getOrderList(callback)
-GET https://bitx.co.za/api/1/BTCZAR/listorders
+GET https://bitx.co.za/api/1/listorders
 
-### getLimits(callback)
-GET https://bitx.co.za/api/1/BTCZAR/listorders
+### getBalance(asset, callback)
+GET https://bitx.co.za/api/1/balance
 
 ### postBuyOrder(volume, price, callback)
-POST https://bitx.co.za/api/1/BTCZAR/postorder
+POST https://bitx.co.za/api/1/postorder
 
 ### postSellOrder(volume, price, callback)
-POST https://bitx.co.za/api/1/BTCZAR/postorder
+POST https://bitx.co.za/api/1/postorder
 
 ### stopOrder(orderId, callback)
-POST https://bitx.co.za/api/1/BTCZAR/stoporder
+POST https://bitx.co.za/api/1/stoporder
 
 ## Contributing
 
