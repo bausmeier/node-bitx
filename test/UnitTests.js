@@ -251,4 +251,14 @@ describe('External', function() {
       mock.verify();
     });
   });
+
+  describe('getFundingAddress', function() {
+    
+    it('should call _request with the correct parameters', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'funding_address', {asset: 'XBT'}, callback);
+      bitx.getFundingAddress('XBT', callback);
+      mock.verify();
+    });
+  });
 });
