@@ -1,3 +1,7 @@
+### 1.2.1
+
+* Fix path bug (#1)
+
 ### 1.2.0
 
 * Add getFundingAddress method
