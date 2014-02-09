@@ -1,6 +1,6 @@
 {
   "name": "bitx",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Brett Ausmeier <brett@ausmeier.co.za>",
   "description": "A simple wrapper for the BitX API.",
   "license": "MIT",
