@@ -1,3 +1,7 @@
+### 1.2.0
+
+* Add getFundingAddress method
+
 ### 1.1.0
 
 * Support multiple currency pairs
