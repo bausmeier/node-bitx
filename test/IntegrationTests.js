@@ -51,6 +51,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/ticker?pair=XBTZAR');
         res.end(JSON.stringify(expectedTicker));
       });
@@ -80,6 +81,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/orderbook?pair=XBTZAR');
         res.end(JSON.stringify(expectedOrderBook));
       });
@@ -103,6 +105,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/trades?pair=XBTZAR');
         res.end(JSON.stringify(expectedTrades));
       });
@@ -136,6 +139,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/listorders?pair=XBTZAR');
         res.end(JSON.stringify(expectedOrderList));
       });
@@ -156,6 +160,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/BTCZAR/getlimits');
         res.end(JSON.stringify(expectedLimits));
       });
@@ -175,6 +180,7 @@ describe('BitX', function() {
       var price = 0.0001;
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/postorder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
@@ -201,6 +207,7 @@ describe('BitX', function() {
       var expectedError = 'Order would exceed your order limits.';
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/postorder');
         res.end(JSON.stringify({error: expectedError}));
       });
@@ -220,6 +227,7 @@ describe('BitX', function() {
       var price = 9999.99;
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/postorder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
@@ -250,6 +258,7 @@ describe('BitX', function() {
       var orderId = 'BXMC2CJ7HNB88U4';
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/stoporder');
         expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
         var body = '';
@@ -273,6 +282,7 @@ describe('BitX', function() {
       var expectedError = 'Cannot stop unknown or non-pending order';
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/stoporder');
         res.end(JSON.stringify({error: expectedError}));
       });
@@ -296,6 +306,7 @@ describe('BitX', function() {
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/balance?asset=ZAR');
         res.end(JSON.stringify(expectedBalances));
       });
@@ -312,15 +323,49 @@ describe('BitX', function() {
     it('should return the funding address', function(done) {
       var expectedFundingAddress = {
         asset: 'XBT',
-        address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'
+        address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
+        total_received: '1.234567',
+        total_unconfirmed: '0.00'
       };
 
       server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
         expect(req).to.have.property('url', '/api/1/funding_address?asset=XBT');
         res.end(JSON.stringify(expectedFundingAddress));
       });
 
       bitx.getFundingAddress('XBT', function(err, fundingAddress) {
+        expect(fundingAddress).to.eql(expectedFundingAddress);
+        done(err);
+      });
+    });
+  });
+
+  describe('createFundingAddress', function() {
+
+    it('should return a new funding address', function(done) {
+      var expectedFundingAddress = {
+        asset: 'XBT',
+        address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
+        total_received: '0.00',
+        total_unconfirmed: '0.00'
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
+        expect(req).to.have.property('url', '/api/1/funding_address');
+        var body = '';
+        req.on('data', function(data) {
+          body += data;
+        });
+        req.on('end', function() {
+          body = querystring.parse(body);
+          expect(body).to.have.property('asset', 'XBT');
+          res.end(JSON.stringify(expectedFundingAddress));
+        });
+      });
+
+      bitx.createFundingAddress('XBT', function(err, fundingAddress) {
         expect(fundingAddress).to.eql(expectedFundingAddress);
         done(err);
       });

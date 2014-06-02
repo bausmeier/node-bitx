@@ -1,3 +1,5 @@
+* Add createFundingAddress method
+
 ### 1.2.1
 
 * Fix path bug (#1)

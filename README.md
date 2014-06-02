@@ -51,6 +51,9 @@ GET https://bitx.co.za/api/1/balance
 ### getFundingAddress(asset, callback)
 GET https://bitx.co.za/api/1/funding_address
 
+### createFundingAddress(asset, callback)
+POST https://bitx.co.za/api/1/funding_address
+
 ### postBuyOrder(volume, price, callback)
 POST https://bitx.co.za/api/1/postorder
 
