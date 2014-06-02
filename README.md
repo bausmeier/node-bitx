@@ -63,6 +63,18 @@ POST https://bitx.co.za/api/1/postorder
 ### stopOrder(orderId, callback)
 POST https://bitx.co.za/api/1/stoporder
 
+### getTransactions(options, callback)
+GET https://bitx.co.za/api/1/transactions
+
+Options:
+```javascript
+{
+  asset: 'XBT', //required
+  offset: 0,
+  limit: 10
+}
+```
+
 ## Contributing
 
 Like my work? Please donate **1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz**.
