@@ -48,8 +48,10 @@ GET https://bitx.co.za/api/1/listorders
 ### getBalance(asset, callback)
 GET https://bitx.co.za/api/1/balance
 
-### getFundingAddress(asset, callback)
+### getFundingAddress(options, callback)
 GET https://bitx.co.za/api/1/funding_address
+
+The `options` argument can either be an asset string e.g. `'XBT'` or an object containing the query parameters to send e.g. `{asset: 'XBT' /*required*/, address: '1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz'}`.
 
 ### createFundingAddress(asset, callback)
 POST https://bitx.co.za/api/1/funding_address

@@ -339,6 +339,30 @@ describe('BitX', function() {
         done(err);
       });
     });
+
+    it('should return the funding address specified', function(done) {
+      var expectedFundingAddress = {
+        asset: 'XBT',
+        address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
+        total_received: '1.234567',
+        total_unconfirmed: '0.00'
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/funding_address?asset=XBT&address=B1tC0InExAMPL3fundIN6AdDreS5t0Use');
+        res.end(JSON.stringify(expectedFundingAddress));
+      });
+
+      var options = {
+        asset: 'XBT',
+        address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'
+      };
+      bitx.getFundingAddress(options, function(err, fundingAddress) {
+        expect(fundingAddress).to.eql(expectedFundingAddress);
+        done(err);
+      });
+    });
   });
 
   describe('createFundingAddress', function() {
