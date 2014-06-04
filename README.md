@@ -42,8 +42,10 @@ GET https://bitx.co.za/api/1/orderbook
 ### getTrades(callback)
 GET https://bitx.co.za/api/1/trades
 
-### getOrderList(callback)
+### getOrderList([state, ]callback)
 GET https://bitx.co.za/api/1/listorders
+
+Results can be restricted to only open orders by specifying optionsal state argument with the value `PENDING`.
 
 ### getBalance(asset, callback)
 GET https://bitx.co.za/api/1/balance

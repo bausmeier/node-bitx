@@ -1,6 +1,7 @@
 * Add createFundingAddress method
 * Add getTransactions method
 * Accept address option for getFundingAddress
+* Accept state option for getOrderList
 
 ### 1.2.1
 

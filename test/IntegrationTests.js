@@ -149,6 +149,37 @@ describe('BitX', function() {
         done(err);
       });
     });
+
+    it('should return the order list for the given state', function(done) {
+      var expectedOrderList = {
+        orders: [
+          {
+            order_id: 'BXMC2CJ7HNB88U4',
+            creation_timestamp: 1367849297609,
+            expiration_timestamp: 1367935697609,
+            type: 'ASK',
+            state: 'PENDING',
+            limit_price: '1000.00',
+            limit_volume: '0.80',
+            btc: '0.00',
+            zar: '0.00',
+            fee_btc: '0.00',
+            fee_zar: '0.00'
+          }
+        ]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/listorders?pair=XBTZAR&state=PENDING');
+        res.end(JSON.stringify(expectedOrderList));
+      });
+
+      bitx.getOrderList('PENDING', function(err, orderlist) {
+        expect(orderlist).to.eql(expectedOrderList);
+        done(err);
+      });
+    });
   });
 
   describe('getLimits', function() {
