@@ -3,6 +3,7 @@
 * Accept address option for getFundingAddress
 * Accept state option for getOrderList
 * Add getWithdrawals method
+* Add getWithdrawal method
 
 ### 1.2.1
 

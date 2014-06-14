@@ -82,6 +82,9 @@ Options:
 ### getWithdrawals(callback)
 GET https://api.mybitx.com/api/1/withdrawals
 
+### getWithdrawal(withdrawalId, callback)
+GET https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
+
 ## Contributing
 
 Like my work? Please donate **1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz**.
