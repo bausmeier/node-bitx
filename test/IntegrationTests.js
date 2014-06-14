@@ -469,4 +469,33 @@ describe('BitX', function() {
       });
     });
   });
+
+  describe('getWithdrawals', function() {
+
+    it('should return the withdrawals', function(done) {
+      var expectedWithdrawls = {
+        withdrawals: [
+          {
+            status: 'PENDING',
+            id: '2221'
+          },
+          {
+            status: 'COMPLETED',
+            id: '1121'
+          }
+        ]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/withdrawals');
+        res.end(JSON.stringify(expectedWithdrawls));
+      });
+
+      bitx.getWithdrawals(function(err, withdrawals) {
+        expect(withdrawals).to.eql(expectedWithdrawls);
+        done(err);
+      });
+    });
+  });
 });

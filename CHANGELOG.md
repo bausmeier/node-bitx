@@ -2,6 +2,7 @@
 * Add getTransactions method
 * Accept address option for getFundingAddress
 * Accept state option for getOrderList
+* Add getWithdrawals method
 
 ### 1.2.1
 

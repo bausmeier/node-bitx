@@ -17,7 +17,7 @@ The optional options argument can be used to override the default options. The d
 
 ```javascript
 {
-  hostname: 'bitx.co.za',
+  hostname: 'api.mybitx.com',
   port: 443,
   ca: undefined,
   pair: 'XBTZAR'
@@ -25,7 +25,7 @@ The optional options argument can be used to override the default options. The d
 ```
 
 ## Methods
-For details about the API endpoints see https://bitx.co.za/api.
+For details about the API endpoints see https://api.mybitx.com/api.
 
 ### Callbacks
 The arguments passed to the callback function for each method are:
@@ -34,41 +34,41 @@ The arguments passed to the callback function for each method are:
 1. An object containing the data returned by the BitX API.
 
 ### getTicker(callback)
-GET https://bitx.co.za/api/1/ticker
+GET https://api.mybitx.com/api/1/ticker
 
 ### getOrderBook(callback)
-GET https://bitx.co.za/api/1/orderbook
+GET https://api.mybitx.com/api/1/orderbook
 
 ### getTrades(callback)
-GET https://bitx.co.za/api/1/trades
+GET https://api.mybitx.com/api/1/trades
 
 ### getOrderList([state, ]callback)
-GET https://bitx.co.za/api/1/listorders
+GET https://api.mybitx.com/api/1/listorders
 
 Results can be restricted to only open orders by specifying the optional state argument with the value `PENDING`.
 
 ### getBalance(asset, callback)
-GET https://bitx.co.za/api/1/balance
+GET https://api.mybitx.com/api/1/balance
 
 ### getFundingAddress(options, callback)
-GET https://bitx.co.za/api/1/funding_address
+GET https://api.mybitx.com/api/1/funding_address
 
 The `options` argument can either be an asset string e.g. `'XBT'` or an object containing the query parameters to send e.g. `{asset: 'XBT' /*required*/, address: '1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz'}`.
 
 ### createFundingAddress(asset, callback)
-POST https://bitx.co.za/api/1/funding_address
+POST https://api.mybitx.com/api/1/funding_address
 
 ### postBuyOrder(volume, price, callback)
-POST https://bitx.co.za/api/1/postorder
+POST https://api.mybitx.com/api/1/postorder
 
 ### postSellOrder(volume, price, callback)
-POST https://bitx.co.za/api/1/postorder
+POST https://api.mybitx.com/api/1/postorder
 
 ### stopOrder(orderId, callback)
-POST https://bitx.co.za/api/1/stoporder
+POST https://api.mybitx.com/api/1/stoporder
 
 ### getTransactions(options, callback)
-GET https://bitx.co.za/api/1/transactions
+GET https://api.mybitx.com/api/1/transactions
 
 Options:
 ```javascript
@@ -78,6 +78,9 @@ Options:
   limit: 10
 }
 ```
+
+### getWithdrawals(callback)
+GET https://api.mybitx.com/api/1/transactions
 
 ## Contributing
 
