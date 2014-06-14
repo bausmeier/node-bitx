@@ -80,7 +80,7 @@ Options:
 ```
 
 ### getWithdrawals(callback)
-GET https://api.mybitx.com/api/1/transactions
+GET https://api.mybitx.com/api/1/withdrawals
 
 ## Contributing
 
