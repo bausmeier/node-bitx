@@ -50,10 +50,12 @@ Results can be restricted to only open orders by specifying the optional state a
 ### getBalance(asset, callback)
 GET https://api.mybitx.com/api/1/balance
 
-### getFundingAddress(options, callback)
+### getFundingAddress(asset, options, callback)
 GET https://api.mybitx.com/api/1/funding_address
 
-The `options` argument can either be an asset string e.g. `'XBT'` or an object containing the query parameters to send e.g. `{asset: 'XBT' /*required*/, address: '1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz'}`.
+Available options:
+
+* address e.g. `1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz`
 
 ### createFundingAddress(asset, callback)
 POST https://api.mybitx.com/api/1/funding_address

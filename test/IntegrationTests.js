@@ -386,10 +386,9 @@ describe('BitX', function() {
       });
 
       var options = {
-        asset: 'XBT',
         address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'
       };
-      bitx.getFundingAddress(options, function(err, fundingAddress) {
+      bitx.getFundingAddress('XBT', options, function(err, fundingAddress) {
         expect(fundingAddress).to.eql(expectedFundingAddress);
         done(err);
       });
