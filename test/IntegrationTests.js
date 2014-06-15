@@ -528,7 +528,7 @@ describe('BitX', function() {
 
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'GET');
-        expect(req).to.have.property('url', '/api/1/withdrawals');
+        expect(req).to.have.property('url', '/api/1/withdrawals/');
         res.end(JSON.stringify(expectedWithdrawls));
       });
 
@@ -570,7 +570,7 @@ describe('BitX', function() {
 
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'POST');
-        expect(req).to.have.property('url', '/api/1/withdrawals');
+        expect(req).to.have.property('url', '/api/1/withdrawals/');
         var body = '';
         req.on('data', function(data) {
           body += data;
