@@ -36,11 +36,29 @@ The arguments passed to the callback function for each method are:
 ### getTicker(callback)
 GET https://api.mybitx.com/api/1/ticker
 
+Example:
+
+```javascript
+bitx.getTicker(function(err, ticker) {});
+```
+
 ### getOrderBook(callback)
 GET https://api.mybitx.com/api/1/orderbook
 
+Example:
+
+```javascript
+bitx.getOrderBook(function(err, orderBook) {});
+```
+
 ### getTrades(callback)
 GET https://api.mybitx.com/api/1/trades
+
+Example:
+
+```javascript
+bitx.getTrades(function(err, trades) {});
+```
 
 ### getOrderList([options, ]callback)
 GET https://api.mybitx.com/api/1/listorders
@@ -54,8 +72,20 @@ Default options:
 }
 ```
 
+Example:
+
+```javascript
+bitx.getOrderList({state: 'PENDING'}, function(err, orderList) {});
+```
+
 ### getBalance(asset, callback)
 GET https://api.mybitx.com/api/1/balance
+
+Example:
+
+```javascript
+bitx.getBalance('ZAR', function(err, balance) {});
+```
 
 ### getFundingAddress(asset, [options, ]callback)
 GET https://api.mybitx.com/api/1/funding_address
@@ -68,17 +98,47 @@ Default options:
 }
 ```
 
+Example:
+
+```javascript
+bitx.getFundingAddress('XBT', {address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'}, function(err, fundingAddress) {});
+```
+
 ### createFundingAddress(asset, callback)
 POST https://api.mybitx.com/api/1/funding_address
+
+Example:
+
+```javascript
+bitx.createFundingAddress('XBT', function(err, fundingAddress) {});
+```
 
 ### postBuyOrder(volume, price, callback)
 POST https://api.mybitx.com/api/1/postorder
 
+Example:
+
+```javascript
+bitx.postBuyOrder(9999.99, 0.01, function(err, order) {});
+```
+
 ### postSellOrder(volume, price, callback)
 POST https://api.mybitx.com/api/1/postorder
 
+Example:
+
+```javascript
+bitx.postSellOrder(0.01, 9999.99, function(err, order) {});
+```
+
 ### stopOrder(orderId, callback)
 POST https://api.mybitx.com/api/1/stoporder
+
+Example:
+
+```javascript
+bitx.stopOrder('BXMC2CJ7HNB88U4', function(err, result) {});
+```
 
 ### getTransactions(asset, [options, ]callback)
 GET https://api.mybitx.com/api/1/transactions
@@ -91,17 +151,47 @@ Default options:
 }
 ```
 
+Example:
+
+```javascript
+bitx.getTransactions('XBT', {offset: 5, limit: 20}, function(err, transactions) {});
+```
+
 ### getWithdrawals(callback)
 GET https://api.mybitx.com/api/1/withdrawals
+
+Example:
+
+```javascript
+bitx.getWithdrawals(function(err, withdrawals) {});
+```
 
 ### getWithdrawal(withdrawalId, callback)
 GET https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
 
+Example:
+
+```javascript
+bitx.getWithdrawal('1212', function(err, withdrawal) {});
+```
+
 ### requestWithdrawal(type, amount, callback)
 POST https://api.mybitx.com/api/1/withdrawals
 
+Example:
+
+```javascript
+bitx.requestWithdrawal('ZAR_EFT', 1000, function(err, withdrawal) {});
+```
+
 ### cancelWithdrawal(withdrawalId, callback)
 DELETE https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
+
+Example:
+
+```javascript
+bitx.cancelWithdrawal('1212', function(err, withdrawal) {});
+```
 
 ## Contributing
 

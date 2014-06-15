@@ -246,7 +246,7 @@ describe('BitX', function() {
         res.end(JSON.stringify({error: expectedError}));
       });
 
-      bitx.postBuyOrder(0.01, 9999.99, function(err) {
+      bitx.postBuyOrder(9999.99, 0.01, function(err) {
         expect(err).to.have.property('message', expectedError);
         done();
       });
