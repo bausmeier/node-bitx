@@ -53,9 +53,13 @@ GET https://api.mybitx.com/api/1/balance
 ### getFundingAddress(asset, options, callback)
 GET https://api.mybitx.com/api/1/funding_address
 
-Available options:
+Default options:
 
-* address e.g. `1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz`
+```javascript
+{
+  address: undefined
+}
+```
 
 ### createFundingAddress(asset, callback)
 POST https://api.mybitx.com/api/1/funding_address
@@ -69,13 +73,12 @@ POST https://api.mybitx.com/api/1/postorder
 ### stopOrder(orderId, callback)
 POST https://api.mybitx.com/api/1/stoporder
 
-### getTransactions(options, callback)
+### getTransactions(asset, options, callback)
 GET https://api.mybitx.com/api/1/transactions
 
-Options:
+Default options:
 ```javascript
 {
-  asset: 'XBT', //required
   offset: 0,
   limit: 10
 }

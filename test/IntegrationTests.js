@@ -455,14 +455,52 @@ describe('BitX', function() {
 
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'GET');
-        expect(req).to.have.property('url', '/api/1/transactions?offset=0&limit=10&asset=XBT');
+        expect(req).to.have.property('url', '/api/1/transactions?asset=XBT&offset=0&limit=10');
+        res.end(JSON.stringify(expectedTransactions));
+      });
+
+      bitx.getTransactions('XBT', function(err, transactions) {
+        expect(transactions).to.eql(expectedTransactions);
+        done(err);
+      });
+    });
+
+    it('should send options and return the transactions', function(done) {
+      var expectedTransactions = {
+        total_count: 77,
+        transactions: [
+          {
+            description: 'test send to email address',
+            timestamp: 1397548704000,
+            txid: '',
+            amount: '-0.01',
+            address: 'test349873498@example.com',
+            type: 'SEND',
+            pending: false
+          },
+          {
+            description: 'R 5.44498',
+            timestamp: 1398596345020,
+            txid: '',
+            amount: '0.00099',
+            address: '',
+            type: 'BUY',
+            pending: false
+          }
+        ]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/transactions?asset=XBT&offset=5&limit=5');
         res.end(JSON.stringify(expectedTransactions));
       });
 
       var options = {
-        asset: 'XBT'
+        offset: 5,
+        limit: 5
       };
-      bitx.getTransactions(options, function(err, transactions) {
+      bitx.getTransactions('XBT', options, function(err, transactions) {
         expect(transactions).to.eql(expectedTransactions);
         done(err);
       });
