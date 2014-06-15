@@ -4,6 +4,7 @@
 * Accept state option for getOrderList
 * Add getWithdrawals method
 * Add getWithdrawal method
+* Add requestWithdrawal method
 
 ### 1.2.1
 

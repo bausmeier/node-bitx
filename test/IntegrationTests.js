@@ -519,4 +519,34 @@ describe('BitX', function() {
       });
     });
   });
+
+  describe('requestWithdrawal', function() {
+
+    it('should post the correct fields and return a new withdrawal', function(done) {
+      var expectedWithdrawal = {
+        status: 'PENDING',
+        id: '1212'
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'POST');
+        expect(req).to.have.property('url', '/api/1/withdrawals');
+        var body = '';
+        req.on('data', function(data) {
+          body += data;
+        });
+        req.on('end', function() {
+          body = querystring.parse(body);
+          expect(body).to.have.property('type', 'ZAR_EFT');
+          expect(body).to.have.property('amount', '1000');
+          res.end(JSON.stringify(expectedWithdrawal));
+        });
+      });
+
+      bitx.requestWithdrawal('ZAR_EFT', 1000, function(err, withdrawal) {
+        expect(withdrawal).to.eql(expectedWithdrawal);
+        done(err);
+      });
+    });
+  });
 });
