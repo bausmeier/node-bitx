@@ -42,15 +42,22 @@ GET https://api.mybitx.com/api/1/orderbook
 ### getTrades(callback)
 GET https://api.mybitx.com/api/1/trades
 
-### getOrderList([state, ]callback)
+### getOrderList([options, ]callback)
 GET https://api.mybitx.com/api/1/listorders
 
-Results can be restricted to only open orders by specifying the optional state argument with the value `PENDING`.
+Default options:
+
+```javascript
+{
+  pair: 'XBTZAR',
+  state: undefined
+}
+```
 
 ### getBalance(asset, callback)
 GET https://api.mybitx.com/api/1/balance
 
-### getFundingAddress(asset, options, callback)
+### getFundingAddress(asset, [options, ]callback)
 GET https://api.mybitx.com/api/1/funding_address
 
 Default options:
@@ -73,7 +80,7 @@ POST https://api.mybitx.com/api/1/postorder
 ### stopOrder(orderId, callback)
 POST https://api.mybitx.com/api/1/stoporder
 
-### getTransactions(asset, options, callback)
+### getTransactions(asset, [options, ]callback)
 GET https://api.mybitx.com/api/1/transactions
 
 Default options:

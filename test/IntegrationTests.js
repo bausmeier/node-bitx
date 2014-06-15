@@ -175,7 +175,10 @@ describe('BitX', function() {
         res.end(JSON.stringify(expectedOrderList));
       });
 
-      bitx.getOrderList('PENDING', function(err, orderlist) {
+      var options = {
+        state: 'PENDING'
+      };
+      bitx.getOrderList(options, function(err, orderlist) {
         expect(orderlist).to.eql(expectedOrderList);
         done(err);
       });
