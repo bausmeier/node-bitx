@@ -49,7 +49,7 @@ Default options:
 
 ```javascript
 {
-  pair: 'XBTZAR',
+  pair: bitx.pair,
   state: undefined
 }
 ```
