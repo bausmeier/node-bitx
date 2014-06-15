@@ -5,6 +5,7 @@
 * Add getWithdrawals method
 * Add getWithdrawal method
 * Add requestWithdrawal method
+* Add cancelWithdrawal method
 
 ### 1.2.1
 

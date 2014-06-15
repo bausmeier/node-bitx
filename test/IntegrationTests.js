@@ -549,4 +549,25 @@ describe('BitX', function() {
       });
     });
   });
+
+  describe('cancelWithdrawal', function() {
+
+    it('should delete the specified withdrawal', function(done) {
+      var expectedWithdrawal = {
+        status: 'CANCELLED',
+        id: '1212'
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'DELETE');
+        expect(req).to.have.property('url', '/api/1/withdrawals/1212');
+        res.end(JSON.stringify(expectedWithdrawal));
+      });
+
+      bitx.cancelWithdrawal('1212', function(err, withdrawal) {
+        expect(withdrawal).to.eql(expectedWithdrawal);
+        done(err);
+      });
+    });
+  });
 });

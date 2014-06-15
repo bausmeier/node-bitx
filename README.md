@@ -88,6 +88,9 @@ GET https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
 ### requestWithdrawal(type, amount, callback)
 POST https://api.mybitx.com/api/1/withdrawals
 
+### cancelWithdrawal(withdrawalId, callback)
+DELETE https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
+
 ## Contributing
 
 Like my work? Please donate **1E1sebnWax5Br2mp8y9dox6oX9Snmf42uz**.
