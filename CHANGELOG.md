@@ -1,3 +1,5 @@
+### 1.3.0
+
 * Add createFundingAddress method
 * Add getTransactions method
 * Accept address option for getFundingAddress
