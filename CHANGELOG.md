@@ -1,3 +1,5 @@
+### 1.4.0
+
 * Add pair option to getTicker, getOrderBook and getTrades
 * Add getAllTickers method
 
