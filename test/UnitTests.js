@@ -111,7 +111,7 @@ describe('Internal', function() {
     });
 
     it('should return an error if the response is not valid', function(done) {
-      stub.returns(new FakeRequest('invalid'));
+      stub.returns(new FakeRequest('invalid', {stringify: false}));
       bitx._request('GET', path, null, function(err, result) {
         expect(err).to.be.instanceOf(Error);
         done();

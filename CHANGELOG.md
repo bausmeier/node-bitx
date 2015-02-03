@@ -1,3 +1,7 @@
+### 1.4.1
+
+* Only catch JSON.parse errors (#6)
+
 ### 1.4.0
 
 * Add pair option to getTicker, getOrderBook and getTrades

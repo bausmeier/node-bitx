@@ -9,10 +9,11 @@ function Request(data, options) {
   
   options = options || {};
   this.fail = options.fail || false;
+  this.stringify = options.stringify !== false;
   
   this.response = new PassThrough();
   this.response.statusCode = options.statusCode || 200;
-  this.response.write(JSON.stringify(data));
+  this.response.write(this.stringify ? JSON.stringify(data) : data);
   this.response.end();
 };
 
