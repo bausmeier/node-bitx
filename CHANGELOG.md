@@ -1,3 +1,5 @@
+* Add pair option to getTicker, getOrderBook and getTrades
+
 ### 1.3.0
 
 * Add createFundingAddress method

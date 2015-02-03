@@ -33,8 +33,16 @@ The arguments passed to the callback function for each method are:
 1. An error or `null` if no error occurred.
 1. An object containing the data returned by the BitX API.
 
-### getTicker(callback)
+### getTicker([options, ]callback)
 GET https://api.mybitx.com/api/1/ticker
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair
+}
+```
 
 Example:
 
@@ -42,8 +50,16 @@ Example:
 bitx.getTicker(function(err, ticker) {});
 ```
 
-### getOrderBook(callback)
+### getOrderBook([options, ]callback)
 GET https://api.mybitx.com/api/1/orderbook
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair
+}
+```
 
 Example:
 
@@ -51,8 +67,16 @@ Example:
 bitx.getOrderBook(function(err, orderBook) {});
 ```
 
-### getTrades(callback)
+### getTrades([options, ]callback)
 GET https://api.mybitx.com/api/1/trades
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair
+}
+```
 
 Example:
 

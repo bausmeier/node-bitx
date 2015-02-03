@@ -150,12 +150,23 @@ describe('External', function() {
     mock = sinon.mock(bitx);
   });
 
+  afterEach(function() {
+    mock.restore();
+  });
+
   describe('getTicker', function() {
 
     it('should call _request with the correct parameters', function() {
       mock.expects('_request').once().withArgs(
         'GET', 'ticker', {pair: 'XBTZAR'}, callback);
       bitx.getTicker(callback);
+      mock.verify();
+    });
+
+    it('should accept a pair option', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'ticker', {pair: 'XBTMYR'}, callback);
+      bitx.getTicker({pair: 'XBTMYR'}, callback);
       mock.verify();
     });
   });
@@ -168,6 +179,13 @@ describe('External', function() {
       bitx.getOrderBook(callback);
       mock.verify();
     });
+
+    it('should accept a pair option', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'orderbook', {pair: 'XBTMYR'}, callback);
+      bitx.getOrderBook({pair: 'XBTMYR'}, callback);
+      mock.verify();
+    });
   });
 
   describe('getTrades', function() {
@@ -178,6 +196,13 @@ describe('External', function() {
       bitx.getTrades(callback);
       mock.verify();
     });
+
+    it('should accept a pair option', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'trades', {pair: 'XBTMYR'}, callback);
+      bitx.getTrades({pair: 'XBTMYR'}, callback);
+      mock.verify();
+    });
   });
 
   describe('getOrderList', function() {
@@ -186,6 +211,13 @@ describe('External', function() {
       mock.expects('_request').once().withArgs(
         'GET', 'listorders', {pair: 'XBTZAR'}, callback);
       bitx.getOrderList(callback);
+      mock.verify();
+    });
+
+    it('should accept a pair option', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'listorders', {pair: 'XBTMYR'}, callback);
+      bitx.getOrderList({pair: 'XBTMYR'}, callback);
       mock.verify();
     });
   });
