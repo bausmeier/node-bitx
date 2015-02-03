@@ -63,6 +63,43 @@ describe('BitX', function() {
     });
   });
 
+  describe('getAllTickers', function() {
+
+    it('should return all tickers', function(done) {
+      var expectedTickers = {
+        tickers: [
+          {
+            timestamp: 1405413955793,
+            bid: '6801.00',
+            ask: '6900.00',
+            last_trade: '6900.00',
+            rolling_24_hour_volume: '12.455579',
+            pair: 'XBTZAR'
+          },
+          {
+            timestamp: 1405413955337,
+            bid: '5000.00',
+            ask: '6968.00',
+            last_trade: '6830.00',
+            rolling_24_hour_volume: '0.00',
+            pair: 'XBTNAD'
+          }
+        ]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/tickers');
+        res.end(JSON.stringify(expectedTickers));
+      });
+
+      bitx.getAllTickers(function(err, tickers) {
+        expect(tickers).to.eql(expectedTickers);
+        done(err);
+      });
+    });
+  });
+
   describe('getOrderBook', function() {
 
     it('should return the order book', function(done) {

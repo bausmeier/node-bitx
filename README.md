@@ -50,6 +50,15 @@ Example:
 bitx.getTicker(function(err, ticker) {});
 ```
 
+### getAllTickers(callback)
+GET https://api.mybitx.com/api/1/tickers
+
+Example:
+
+```javascript
+bitx.getAllTickers(function(err, tickers) {});
+```
+
 ### getOrderBook([options, ]callback)
 GET https://api.mybitx.com/api/1/orderbook
 

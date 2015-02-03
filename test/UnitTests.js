@@ -171,6 +171,16 @@ describe('External', function() {
     });
   });
 
+  describe('getAllTickers', function() {
+
+    it('should call _request with the correct parameters', function() {
+      mock.expects('_request').once().withArgs(
+        'GET', 'tickers', null, callback);
+      bitx.getAllTickers(callback);
+      mock.verify();
+    });
+  });
+
   describe('getOrderBook', function() {
 
     it('should call _request with the correct parameters', function() {
