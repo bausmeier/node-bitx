@@ -288,8 +288,8 @@ describe('External', function() {
 
     it('should call _request with the correct parameters', function() {
       mock.expects('_request').once().withArgs(
-        'GET', 'balance', {asset: 'ZAR'}, callback);
-      bitx.getBalance('ZAR', callback);
+        'GET', 'balance', null, callback);
+      bitx.getBalance(callback);
       mock.verify();
     });
   });

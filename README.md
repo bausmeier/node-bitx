@@ -111,13 +111,13 @@ Example:
 bitx.getOrderList({state: 'PENDING'}, function(err, orderList) {});
 ```
 
-### getBalance(asset, callback)
+### getBalance(callback)
 GET https://api.mybitx.com/api/1/balance
 
 Example:
 
 ```javascript
-bitx.getBalance('ZAR', function(err, balance) {});
+bitx.getBalance(function(err, balance) {});
 ```
 
 ### getFundingAddress(asset, [options, ]callback)
