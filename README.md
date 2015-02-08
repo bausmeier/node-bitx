@@ -111,7 +111,7 @@ Example:
 bitx.getOrderList({state: 'PENDING'}, function(err, orderList) {});
 ```
 
-### getBalance(asset, callback)
+### getBalance([asset, ]callback)
 GET https://api.mybitx.com/api/1/balance
 
 Example:

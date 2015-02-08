@@ -367,7 +367,38 @@ describe('BitX', function() {
 
   describe('getBalance', function() {
 
-    it('should return the balance', function(done) {
+    it('should return all balances when no asset parameter is provided', function(done) {
+      var expectedBalances = {
+        balance: [
+          {
+            account_id: '1224342323',
+            asset: 'XBT',
+            balance: '1.012423',
+            reserved: '0.01',
+            unconfirmed: '0.421'
+          }, {
+            account_id: '2997473',
+            asset: 'ZAR',
+            balance: '1000.00',
+            reserved: '0.00',
+            unconfirmed: '0.00'
+          }
+        ]
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/balance');
+        res.end(JSON.stringify(expectedBalances));
+      });
+
+      bitx.getBalance(function(err, balances) {
+        expect(balances).to.eql(expectedBalances);
+        done(err);
+      });
+    });
+
+    it('should return the balance for the specified asset', function(done) {
       var expectedBalances = {
         balance: [{
           asset: 'ZAR',

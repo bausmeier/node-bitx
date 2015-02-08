@@ -1,3 +1,5 @@
+* Make asset parameter optional for getBalance
+
 ### 1.4.1
 
 * Only catch JSON.parse errors (#6)
