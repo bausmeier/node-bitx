@@ -1,3 +1,5 @@
+### 1.4.2
+
 * Make asset parameter optional for getBalance
 
 ### 1.4.1
