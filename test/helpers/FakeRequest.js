@@ -1,12 +1,10 @@
+'use strict';
+
 var EventEmitter = require('events').EventEmitter,
     util = require('util'),
     PassThrough = require('stream').PassThrough;
 
-util.inherits(Request, EventEmitter);
-
 function Request(data, options) {
-  EventEmitter.call(this);
-  
   options = options || {};
   this.fail = options.fail || false;
   this.stringify = options.stringify !== false;
@@ -15,7 +13,11 @@ function Request(data, options) {
   this.response.statusCode = options.statusCode || 200;
   this.response.write(this.stringify ? JSON.stringify(data) : data);
   this.response.end();
-};
+
+  EventEmitter.call(this);
+}
+
+util.inherits(Request, EventEmitter);
 
 Request.prototype.end = function() {
   if (this.fail) {
