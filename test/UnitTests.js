@@ -1,33 +1,37 @@
 'use strict';
 
-var BitX = require('../lib/BitX'),
-    https = require('https'),
-    sinon = require('sinon'),
-    chai = require('chai'),
-    FakeRequest = require('./helpers/FakeRequest');
+var BitX = require('../lib/BitX');
+var FakeRequest = require('./helpers/FakeRequest');
+var https = require('https');
+var Lab = require('lab');
+var sinon = require('sinon');
 
-var expect = chai.expect;
+var expect = Lab.assertions;
+var lab = exports.lab = Lab.script();
 
-describe('Constructor', function() {
+lab.describe('Constructor', function() {
 
-  it('should create a new instance', function() {
+  lab.it('should create a new instance', function(done) {
     var bitx = new BitX();
     expect(bitx).to.be.an.instanceOf(BitX);
+    done();
   });
 
-  it('should create a new instance without the new keyword', function() {
+  lab.it('should create a new instance without the new keyword', function(done) {
     var bitx = BitX();
     expect(bitx).to.be.an.instanceOf(BitX);
+    done();
   });
 
-  it('should have default options', function() {
+  lab.it('should have default options', function(done) {
     var bitx = new BitX();
     expect(bitx.hostname).to.equal('api.mybitx.com');
     expect(bitx.port).to.equal(443);
     expect(bitx.pair).to.equal('XBTZAR');
+    done();
   });
 
-  it('should accept options', function() {
+  lab.it('should accept options', function(done) {
     var options = {
       hostname: 'localhost',
       port: 8000,
@@ -37,9 +41,10 @@ describe('Constructor', function() {
     expect(bitx.hostname).to.equal(options.hostname);
     expect(bitx.port).to.equal(options.port);
     expect(bitx.pair).to.equal(options.pair);
+    done();
   });
 
-  it('should accept auth and options', function() {
+  lab.it('should accept auth and options', function(done) {
     var keyId = 'cnz2yjswbv3jd',
         keySecret = '0hydMZDb9HRR3Qq-iqALwZtXLkbLR4fWxtDZvkB9h4I',
         options = {
@@ -52,10 +57,11 @@ describe('Constructor', function() {
     expect(bitx.port).to.equal(options.port);
     expect(bitx.pair).to.equal(options.pair);
     expect(bitx.auth).to.equal(keyId + ':' + keySecret);
+    done();
   });
 });
 
-describe('Internal', function() {
+lab.describe('Internal', function() {
 
   var bitx,
       request,
@@ -76,59 +82,62 @@ describe('Internal', function() {
     auth: keyId + ':' + keySecret
   };
 
-  before(function() {
+  lab.before(function(done) {
     bitx = new BitX(keyId, keySecret);
-    request = sinon.stub(https, 'request'),
+    request = sinon.stub(https, 'request');
     stub = request.withArgs(sinon.match(expectedOptions));
+    done();
   });
 
-  after(function() {
+  lab.after(function(done) {
     request.restore();
+    done();
   });
 
-  afterEach(function() {
+  lab.afterEach(function(done) {
     stub.reset();
+    done();
   });
 
-  describe('_request', function() {
+  lab.describe('_request', function() {
 
-    it('should return the expected result', function(done) {
+    lab.it('should return the expected result', function(done) {
       var expectedResult = {success: true};
       stub.returns(new FakeRequest(expectedResult));
       bitx._request('GET', path, null, function(err, result) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         expect(result).to.eql(expectedResult);
         done();
       });
     });
 
-    it('should return an error if request emits an error', function(done) {
+    lab.it('should return an error if request emits an error', function(done) {
       stub.returns(new FakeRequest(null, {fail: true}));
-      bitx._request('GET', path, null, function(err, result) {
+      bitx._request('GET', path, null, function(err) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
     });
 
-    it('should return an error if the response is not valid', function(done) {
+    lab.it('should return an error if the response is not valid', function(done) {
       stub.returns(new FakeRequest('invalid', {stringify: false}));
-      bitx._request('GET', path, null, function(err, result) {
+      bitx._request('GET', path, null, function(err) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
     });
 
-    it('should return an error if the response contains an error', function(done) {
+    lab.it('should return an error if the response contains an error', function(done) {
       stub.returns(new FakeRequest({error: true}));
-      bitx._request('GET', path, null, function(err, result) {
+      bitx._request('GET', path, null, function(err) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
     });
 
-    it('should return an error if the response is unauthorized', function(done) {
+    lab.it('should return an error if the response is unauthorized', function(done) {
       stub.returns(new FakeRequest(null, {statusCode: 401}));
-      bitx._request('GET', path, null, function(err, result) {
+      bitx._request('GET', path, null, function(err) {
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -136,115 +145,128 @@ describe('Internal', function() {
   });
 });
 
-describe('External', function() {
+lab.describe('External', function() {
   var bitx,
       mock;
 
   var callback = function() {};
 
-  before(function() {
+  lab.before(function(done) {
     bitx = new BitX();
+    done();
   });
 
-  beforeEach(function() {
+  lab.beforeEach(function(done) {
     mock = sinon.mock(bitx);
+    done();
   });
 
-  afterEach(function() {
+  lab.afterEach(function(done) {
     mock.restore();
+    done();
   });
 
-  describe('getTicker', function() {
+  lab.describe('getTicker', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'ticker', {pair: 'XBTZAR'}, callback);
       bitx.getTicker(callback);
       mock.verify();
+      done();
     });
 
-    it('should accept a pair option', function() {
+    lab.it('should accept a pair option', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'ticker', {pair: 'XBTMYR'}, callback);
       bitx.getTicker({pair: 'XBTMYR'}, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getAllTickers', function() {
+  lab.describe('getAllTickers', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'tickers', null, callback);
       bitx.getAllTickers(callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getOrderBook', function() {
+  lab.describe('getOrderBook', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'orderbook', {pair: 'XBTZAR'}, callback);
       bitx.getOrderBook(callback);
       mock.verify();
+      done();
     });
 
-    it('should accept a pair option', function() {
+    lab.it('should accept a pair option', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'orderbook', {pair: 'XBTMYR'}, callback);
       bitx.getOrderBook({pair: 'XBTMYR'}, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getTrades', function() {
+  lab.describe('getTrades', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'trades', {pair: 'XBTZAR'}, callback);
       bitx.getTrades(callback);
       mock.verify();
+      done();
     });
 
-    it('should accept a pair option', function() {
+    lab.it('should accept a pair option', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'trades', {pair: 'XBTMYR'}, callback);
       bitx.getTrades({pair: 'XBTMYR'}, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getOrderList', function() {
+  lab.describe('getOrderList', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'listorders', {pair: 'XBTZAR'}, callback);
       bitx.getOrderList(callback);
       mock.verify();
+      done();
     });
 
-    it('should accept a pair option', function() {
+    lab.it('should accept a pair option', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'listorders', {pair: 'XBTMYR'}, callback);
       bitx.getOrderList({pair: 'XBTMYR'}, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getLimits', function() {
+  lab.describe('getLimits', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'BTCZAR/getlimits', null, callback);
       bitx.getLimits(callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('postBuyOrder', function() {
+  lab.describe('postBuyOrder', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       var parameters = {
         type: 'BID',
         volume: 9999.99,
@@ -254,12 +276,13 @@ describe('External', function() {
       mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
       bitx.postBuyOrder(parameters.volume, parameters.price, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('postSellOrder', function() {
+  lab.describe('postSellOrder', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       var parameters = {
         type: 'ASK',
         volume: 0.001,
@@ -269,45 +292,50 @@ describe('External', function() {
       mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback);
       bitx.postSellOrder(parameters.volume, parameters.price, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('stopOrder', function() {
+  lab.describe('stopOrder', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       var body = {
         order_id: 'BXMC2CJ7HNB88U4'
       };
       mock.expects('_request').once().withArgs('POST', 'stoporder', body, callback);
       bitx.stopOrder(body.order_id, callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getBalance', function() {
+  lab.describe('getBalance', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'balance', null, callback);
       bitx.getBalance(callback);
       mock.verify();
+      done();
     });
 
-    it('should accept an asset argument and call _request with the correct parameters', function() {
+    lab.it('should accept an asset argument and call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'balance', {asset: 'ZAR'}, callback);
       bitx.getBalance('ZAR', callback);
       mock.verify();
+      done();
     });
   });
 
-  describe('getFundingAddress', function() {
+  lab.describe('getFundingAddress', function() {
 
-    it('should call _request with the correct parameters', function() {
+    lab.it('should call _request with the correct parameters', function(done) {
       mock.expects('_request').once().withArgs(
         'GET', 'funding_address', {asset: 'XBT'}, callback);
       bitx.getFundingAddress('XBT', callback);
       mock.verify();
+      done();
     });
   });
 });

@@ -1,6 +1,7 @@
 .*
 !.gitignore
+!.jshintrc
 !.npmignore
 !.travis.yml
+coverage.html
 node_modules/
-coverage/

@@ -1,23 +1,23 @@
 'use strict';
 
-var https = require('https'),
-    fs = require('fs'),
-    url = require('url'),
-    path = require('path'),
-    querystring = require('querystring'),
-    BitX = require('../lib/BitX'),
-    chai = require('chai');
+var BitX = require('../lib/BitX');
+var fs = require('fs');
+var https = require('https');
+var Lab = require('lab');
+var path = require('path');
+var querystring = require('querystring');
 
-var expect = chai.expect;
+var expect = Lab.assertions;
+var lab = exports.lab = Lab.script();
 
 var port = process.env.PORT || 8001;
 
-describe('BitX', function() {
+lab.describe('BitX', function() {
 
   var bitx,
       server;
 
-  before(function(done) {
+  lab.before(function(done) {
     bitx = new BitX('keyId', 'keySecret', {
       hostname: 'localhost',
       port: port,
@@ -30,17 +30,18 @@ describe('BitX', function() {
     server = https.createServer(options).listen(port, 'localhost', done);
   });
 
-  afterEach(function() {
+  lab.afterEach(function(done) {
     server.removeAllListeners('request');
+    done();
   });
 
-  after(function(done) {
+  lab.after(function(done) {
     server.close(done);
   });
 
-  describe('getTicker', function() {
+  lab.describe('getTicker', function() {
 
-    it('should return a ticker', function(done) {
+    lab.it('should return a ticker', function(done) {
       var expectedTicker = {
         timestamp: 1366224386716,
         currency: 'ZAR',
@@ -63,9 +64,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getAllTickers', function() {
+  lab.describe('getAllTickers', function() {
 
-    it('should return all tickers', function(done) {
+    lab.it('should return all tickers', function(done) {
       var expectedTickers = {
         tickers: [
           {
@@ -100,9 +101,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getOrderBook', function() {
+  lab.describe('getOrderBook', function() {
 
-    it('should return the order book', function(done) {
+    lab.it('should return the order book', function(done) {
       var expectedOrderBook = {
         timestamp: 1366305398592,
         currency: 'ZAR',
@@ -130,9 +131,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getTrades', function() {
+  lab.describe('getTrades', function() {
 
-    it('should return the trades', function(done) {
+    lab.it('should return the trades', function(done) {
       var expectedTrades = {
         currency: 'ZAR',
         trades: [
@@ -154,9 +155,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getOrderList', function() {
+  lab.describe('getOrderList', function() {
 
-    it('should return the order list', function(done) {
+    lab.it('should return the order list', function(done) {
       var expectedOrderList = {
         orders: [
           {
@@ -187,7 +188,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should return the order list for the given state', function(done) {
+    lab.it('should return the order list for the given state', function(done) {
       var expectedOrderList = {
         orders: [
           {
@@ -222,9 +223,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getLimits', function() {
+  lab.describe('getLimits', function() {
 
-    it('should return the limits', function(done) {
+    lab.it('should return the limits', function(done) {
       var expectedLimits = {
         ask_btc_limit: '1.00',
         bid_zar_limit: '1000.00'
@@ -243,9 +244,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('postBuyOrder', function() {
+  lab.describe('postBuyOrder', function() {
 
-    it('should post the correct fields and return an order id', function(done) {
+    lab.it('should post the correct fields and return an order id', function(done) {
       var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'};
       var volume = 9999.99;
       var price = 0.0001;
@@ -253,7 +254,7 @@ describe('BitX', function() {
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/postorder');
-        expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
+        expect(req.headers).to.have.property('content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
           body += data;
@@ -274,7 +275,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should return an error if the order would exceed order limits', function(done) {
+    lab.it('should return an error if the order would exceed order limits', function(done) {
       var expectedError = 'Order would exceed your order limits.';
 
       server.on('request', function(req, res) {
@@ -290,9 +291,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('postSellOrder', function() {
+  lab.describe('postSellOrder', function() {
 
-    it('should post the correct fields and return an order id', function(done) {
+    lab.it('should post the correct fields and return an order id', function(done) {
       var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'};
       var volume = 0.001;
       var price = 9999.99;
@@ -300,7 +301,7 @@ describe('BitX', function() {
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/postorder');
-        expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
+        expect(req.headers).to.have.property('content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
           body += data;
@@ -322,16 +323,16 @@ describe('BitX', function() {
     });
   });
 
-  describe('stopOrder', function() {
+  lab.describe('stopOrder', function() {
 
-    it('should post the order id and return success', function(done) {
+    lab.it('should post the order id and return success', function(done) {
       var expectedResult = {success: true};
       var orderId = 'BXMC2CJ7HNB88U4';
 
       server.on('request', function(req, res) {
         expect(req).to.have.property('method', 'POST');
         expect(req).to.have.property('url', '/api/1/stoporder');
-        expect(req).to.have.deep.property('headers.content-type', 'application/x-www-form-urlencoded');
+        expect(req.headers).to.have.property('content-type', 'application/x-www-form-urlencoded');
         var body = '';
         req.on('data', function(data) {
           body += data;
@@ -349,7 +350,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should return an error if the order is unknown or non-pending', function(done) {
+    lab.it('should return an error if the order is unknown or non-pending', function(done) {
       var expectedError = 'Cannot stop unknown or non-pending order';
 
       server.on('request', function(req, res) {
@@ -365,9 +366,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getBalance', function() {
+  lab.describe('getBalance', function() {
 
-    it('should return all balances when no asset parameter is provided', function(done) {
+    lab.it('should return all balances when no asset parameter is provided', function(done) {
       var expectedBalances = {
         balance: [
           {
@@ -398,7 +399,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should return the balance for the specified asset', function(done) {
+    lab.it('should return the balance for the specified asset', function(done) {
       var expectedBalances = {
         balance: [{
           asset: 'ZAR',
@@ -420,9 +421,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getFundingAddress', function() {
+  lab.describe('getFundingAddress', function() {
 
-    it('should return the funding address', function(done) {
+    lab.it('should return the funding address', function(done) {
       var expectedFundingAddress = {
         asset: 'XBT',
         address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
@@ -442,7 +443,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should return the funding address specified', function(done) {
+    lab.it('should return the funding address specified', function(done) {
       var expectedFundingAddress = {
         asset: 'XBT',
         address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
@@ -466,9 +467,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('createFundingAddress', function() {
+  lab.describe('createFundingAddress', function() {
 
-    it('should return a new funding address', function(done) {
+    lab.it('should return a new funding address', function(done) {
       var expectedFundingAddress = {
         asset: 'XBT',
         address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use',
@@ -497,9 +498,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getTransactions', function() {
+  lab.describe('getTransactions', function() {
 
-    it('should return the transactions', function(done) {
+    lab.it('should return the transactions', function(done) {
       var expectedTransactions = {
         total_count: 77,
         transactions: [
@@ -536,7 +537,7 @@ describe('BitX', function() {
       });
     });
 
-    it('should send options and return the transactions', function(done) {
+    lab.it('should send options and return the transactions', function(done) {
       var expectedTransactions = {
         total_count: 77,
         transactions: [
@@ -578,9 +579,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getWithdrawals', function() {
+  lab.describe('getWithdrawals', function() {
 
-    it('should return the withdrawals', function(done) {
+    lab.it('should return the withdrawals', function(done) {
       var expectedWithdrawls = {
         withdrawals: [
           {
@@ -607,9 +608,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('getWithdrawal', function() {
+  lab.describe('getWithdrawal', function() {
 
-    it('should return the withdrawal', function(done) {
+    lab.it('should return the withdrawal', function(done) {
       var expectedWithdrawal = {
         status: 'COMPLETED',
         id: '1212'
@@ -628,9 +629,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('requestWithdrawal', function() {
+  lab.describe('requestWithdrawal', function() {
 
-    it('should post the correct fields and return a new withdrawal', function(done) {
+    lab.it('should post the correct fields and return a new withdrawal', function(done) {
       var expectedWithdrawal = {
         status: 'PENDING',
         id: '1212'
@@ -658,9 +659,9 @@ describe('BitX', function() {
     });
   });
 
-  describe('cancelWithdrawal', function() {
+  lab.describe('cancelWithdrawal', function() {
 
-    it('should delete the specified withdrawal', function(done) {
+    lab.it('should delete the specified withdrawal', function(done) {
       var expectedWithdrawal = {
         status: 'CANCELLED',
         id: '1212'
