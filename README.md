@@ -173,6 +173,15 @@ Example:
 bitx.stopOrder('BXMC2CJ7HNB88U4', function(err, result) {});
 ```
 
+### getOrder(orderId, callback)
+GET https://api.mybitx.com/api/1/orders/{orderId}
+
+Example:
+
+```javascript
+bitx.getOrder('BXHW6PFRRXKFSB4', function(err, result) {});
+```
+
 ### getTransactions(asset, [options, ]callback)
 GET https://api.mybitx.com/api/1/transactions
 
