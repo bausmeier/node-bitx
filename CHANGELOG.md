@@ -1,4 +1,4 @@
-### 1.4.4
+### 1.5.0
 
 * Add getOrder method
 
