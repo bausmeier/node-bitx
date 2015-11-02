@@ -366,6 +366,48 @@ lab.describe('BitX', function() {
     });
   });
 
+  lab.describe('getOrder', function() {
+
+    lab.it('should return the order', function(done) {
+      var expectedOrder = {
+        "order_id": "BXHW6PFRRXKFSB4",
+        "creation_timestamp": 1402866878367,
+        "expiration_timestamp": 0,
+        "type": "ASK",
+        "state": "PENDING",
+        "limit_price": "6500.00",
+        "limit_volume": "0.05",
+        "base": "0.03",
+        "counter": "195.02",
+        "fee_base":"0.000",
+        "fee_counter":"0.00",
+        "trades": [
+          {
+            "price": "6501.00",
+            "timestamp": 1402866878467,
+            "volume": "0.02"
+          },
+          {
+            "price": "6500.00",
+            "timestamp": 1402866878567,
+            "volume": "0.01"
+          }
+        ],
+      };
+
+      server.on('request', function(req, res) {
+        expect(req).to.have.property('method', 'GET');
+        expect(req).to.have.property('url', '/api/1/orders/BXHW6PFRRXKFSB4');
+        res.end(JSON.stringify(expectedOrder));
+      });
+
+      bitx.getOrder('BXHW6PFRRXKFSB4', function(err, order) {
+        expect(order).to.eql(expectedOrder);
+        done(err);
+      });
+    });
+  });
+
   lab.describe('getBalance', function() {
 
     lab.it('should return all balances when no asset parameter is provided', function(done) {

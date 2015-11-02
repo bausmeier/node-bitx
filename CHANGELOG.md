@@ -1,3 +1,7 @@
+### 1.5.0
+
+* Add getOrder method
+
 ### 1.4.2
 
 * Make asset parameter optional for getBalance
