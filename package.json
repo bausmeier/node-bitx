@@ -19,7 +19,7 @@
     "cover": "lab -a must -o coverage.html -r html"
   },
   "devDependencies": {
-    "lab": "^5.5.0",
+    "lab": "^5.18.1",
     "must": "^0.12.0",
     "sinon": "^1.14.1"
   }
