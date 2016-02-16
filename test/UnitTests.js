@@ -35,7 +35,7 @@ lab.describe('Constructor', function () {
 		var options = {
 			hostname : 'localhost',
 			port     : 8000,
-			pair     : 'XBTUSD',
+			pair     : 'XBTUSD'
 		};
 		var bitx = new BitX(options);
 		expect(bitx.hostname).to.equal(options.hostname);
@@ -50,7 +50,7 @@ lab.describe('Constructor', function () {
 			options = {
 				hostname : 'localhost',
 				port     : 8000,
-				pair     : 'XBTUSD',
+				pair     : 'XBTUSD'
 			};
 		var bitx = new BitX(keyId, keySecret, options);
 		expect(bitx.hostname).to.equal(options.hostname);

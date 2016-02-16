@@ -422,7 +422,7 @@ lab.describe('BitX', function () {
 						"timestamp" : 1402866878567,
 						"volume"    : "0.01"
 					}
-				],
+				]
 			};
 
 			server.on('request', function (req, res) {
