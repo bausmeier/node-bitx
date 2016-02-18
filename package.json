@@ -1,6 +1,6 @@
 {
-  "name": "bitx",
-  "version": "1.5.0",
+  "name": "bitxplus",
+  "version": "1.5.1",
   "author": "Brett Ausmeier <brett@ausmeier.co.za>",
   "description": "A simple wrapper for the BitX API.",
   "license": "MIT",
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bausmeier/node-bitx.git"
+    "url": "https://github.com/gamaroff/node-bitx.git"
   },
   "main": "./lib/BitX",
   "scripts": {

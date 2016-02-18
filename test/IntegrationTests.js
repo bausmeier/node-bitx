@@ -328,6 +328,8 @@ lab.describe('BitX', function () {
 		lab.it('should post the correct fields and return an order id', function (done) {
 			var expectedOrder = {order_id : 'BXMC2CJ7HNB88U4'};
 			var counter_volume = 100.50;
+			var pair = 'XBTZAR';
+			var type = 'BUY';
 
 			server.on('request', function (req, res) {
 				expect(req).to.have.property('method', 'POST');
@@ -339,14 +341,46 @@ lab.describe('BitX', function () {
 				});
 				req.on('end', function () {
 					body = querystring.parse(body);
-					expect(body).to.have.property('type', 'BUY');
+					expect(body).to.have.property('type', type);
 					expect(body).to.have.property('counter_volume', counter_volume.toString());
-					expect(body).to.have.property('pair', 'XBTZAR');
+					expect(body).to.have.property('pair', pair);
 					res.end(JSON.stringify(expectedOrder));
 				});
 			});
 
-			bitx.postSellOrder(volume, price, function (err, order) {
+			bitx.postMarketOrder(pair, type, function (err, order) {
+				expect(order).to.eql(expectedOrder);
+				done(err);
+			});
+		});
+	});
+
+	lab.describe('send', function () {
+
+		lab.it('should post the correct fields and return a success', function (done) {
+			var expectedOrder = {success : 'true'};
+			var amount = 0.001;
+			var currency = '0.001';
+			var address = '0.001';
+
+			server.on('request', function (req, res) {
+				expect(req).to.have.property('method', 'POST');
+				expect(req).to.have.property('url', '/api/1/send');
+				expect(req.headers).to.have.property('content-type', 'application/x-www-form-urlencoded');
+				var body = '';
+				req.on('data', function (data) {
+					body += data;
+				});
+				req.on('end', function () {
+					body = querystring.parse(body);
+					expect(body).to.have.property('amount', amount.toString());
+					expect(body).to.have.property('currency', 'XBT');
+					expect(body).to.have.property('address', '');
+					res.end(JSON.stringify(expectedOrder));
+				});
+			});
+
+			bitx.send(amount, currency, address, function (err, order) {
 				expect(order).to.eql(expectedOrder);
 				done(err);
 			});
