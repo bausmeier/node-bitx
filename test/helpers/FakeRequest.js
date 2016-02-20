@@ -1,30 +1,30 @@
-'use strict';
+'use strict'
 
-var EventEmitter = require('events').EventEmitter,
-    util = require('util'),
-    PassThrough = require('stream').PassThrough;
+var EventEmitter = require('events').EventEmitter
+var util = require('util')
+var PassThrough = require('stream').PassThrough
 
-function Request(data, options) {
-  options = options || {};
-  this.fail = options.fail || false;
-  this.stringify = options.stringify !== false;
-  
-  this.response = new PassThrough();
-  this.response.statusCode = options.statusCode || 200;
-  this.response.write(this.stringify ? JSON.stringify(data) : data);
-  this.response.end();
+function Request (data, options) {
+  options = options || {}
+  this.fail = options.fail || false
+  this.stringify = options.stringify !== false
 
-  EventEmitter.call(this);
+  this.response = new PassThrough()
+  this.response.statusCode = options.statusCode || 200
+  this.response.write(this.stringify ? JSON.stringify(data) : data)
+  this.response.end()
+
+  EventEmitter.call(this)
 }
 
-util.inherits(Request, EventEmitter);
+util.inherits(Request, EventEmitter)
 
-Request.prototype.end = function() {
+Request.prototype.end = function () {
   if (this.fail) {
-    this.emit('error', new Error());
+    this.emit('error', new Error())
   } else {
-    this.emit('response', this.response);
+    this.emit('response', this.response)
   }
-};
+}
 
-module.exports = Request;
+module.exports = Request
