@@ -227,6 +227,18 @@ tap.test('External', {autoend: true}, function (t) {
     tt.end()
   })
 
+  t.test('postMarketBuyOrder should call _request with the correct parameters', function (tt) {
+    var parameters = {
+      type: 'BUY',
+      counter_volume: 9999.99,
+      pair: 'XBTZAR'
+    }
+    mock.expects('_request').once().withArgs('POST', 'marketorder', parameters, callback)
+    bitx.postMarketBuyOrder(parameters.counter_volume, callback)
+    mock.verify()
+    tt.end()
+  })
+
   t.test('postSellOrder should call _request with the correct parameters', function (tt) {
     var parameters = {
       type: 'ASK',
@@ -236,6 +248,18 @@ tap.test('External', {autoend: true}, function (t) {
     }
     mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
     bitx.postSellOrder(parameters.volume, parameters.price, callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('postMarketSellOrder should call _request with the correct parameters', function (tt) {
+    var parameters = {
+      type: 'SELL',
+      base_volume: 9999.99,
+      pair: 'XBTZAR'
+    }
+    mock.expects('_request').once().withArgs('POST', 'marketorder', parameters, callback)
+    bitx.postMarketSellOrder(parameters.base_volume, callback)
     mock.verify()
     tt.end()
   })

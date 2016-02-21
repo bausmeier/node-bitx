@@ -164,6 +164,24 @@ Example:
 bitx.postSellOrder(0.01, 9999.99, function(err, order) {});
 ```
 
+### postMarketBuyOrder(volume, callback)
+POST https://api.mybitx.com/api/1/marketorder
+
+Example:
+
+```javascript
+bitx.postMarketBuyOrder(0.01, function(err, order) {});
+```
+
+### postMarketSellOrder(volume, callback)
+POST https://api.mybitx.com/api/1/marketorder
+
+Example:
+
+```javascript
+bitx.postMarketSellOrder(0.01, function(err, order) {});
+```
+
 ### stopOrder(orderId, callback)
 POST https://api.mybitx.com/api/1/stoporder
 
