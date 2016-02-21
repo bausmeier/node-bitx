@@ -3,5 +3,5 @@
 !.jshintrc
 !.npmignore
 !.travis.yml
-coverage.html
+coverage/
 node_modules/

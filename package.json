@@ -15,13 +15,12 @@
   },
   "main": "./lib/BitX",
   "scripts": {
-    "test": "standard && lab -v -a must -t 100",
-    "cover": "lab -a must -o coverage.html -r html"
+    "test": "standard && tap --cov test/{IntegrationTests,UnitTests}.js",
+    "cover": "tap --cov --coverage-report=html test/{IntegrationTests,UnitTests}.js"
   },
   "devDependencies": {
-    "lab": "^9.0.0",
-    "must": "^0.13.1",
     "sinon": "^1.14.1",
-    "standard": "^6.0.7"
+    "standard": "^6.0.7",
+    "tap": "^5.6.0"
   }
 }

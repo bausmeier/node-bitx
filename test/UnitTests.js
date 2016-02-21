@@ -3,47 +3,44 @@
 var BitX = require('../lib/BitX')
 var FakeRequest = require('./helpers/FakeRequest')
 var https = require('https')
-var Lab = require('lab')
 var sinon = require('sinon')
+var tap = require('tap')
 
-var expect = Lab.assertions
-var lab = exports.lab = Lab.script()
-
-lab.describe('Constructor', function () {
-  lab.it('should create a new instance', function (done) {
+tap.test('BitX constructor', {autoend: true}, function (t) {
+  t.test('should create a new instance', function (tt) {
     var bitx = new BitX()
-    expect(bitx).to.be.an.instanceOf(BitX)
-    done()
+    tt.type(bitx, 'BitX')
+    tt.end()
   })
 
-  lab.it('should create a new instance without the new keyword', function (done) {
+  tap.test('should create a new instance without the new keyword', function (tt) {
     var bitx = BitX()
-    expect(bitx).to.be.an.instanceOf(BitX)
-    done()
+    tt.type(bitx, 'BitX')
+    tt.end()
   })
 
-  lab.it('should have default options', function (done) {
+  tap.test('should have default options', function (tt) {
     var bitx = new BitX()
-    expect(bitx.hostname).to.equal('api.mybitx.com')
-    expect(bitx.port).to.equal(443)
-    expect(bitx.pair).to.equal('XBTZAR')
-    done()
+    tt.equal(bitx.hostname, 'api.mybitx.com')
+    tt.equal(bitx.port, 443)
+    tt.equal(bitx.pair, 'XBTZAR')
+    tt.end()
   })
 
-  lab.it('should accept options', function (done) {
+  tap.test('should accept options', function (tt) {
     var options = {
       hostname: 'localhost',
       port: 8000,
       pair: 'XBTUSD'
     }
     var bitx = new BitX(options)
-    expect(bitx.hostname).to.equal(options.hostname)
-    expect(bitx.port).to.equal(options.port)
-    expect(bitx.pair).to.equal(options.pair)
-    done()
+    tt.equal(bitx.hostname, options.hostname)
+    tt.equal(bitx.port, options.port)
+    tt.equal(bitx.pair, options.pair)
+    tt.end()
   })
 
-  lab.it('should accept auth and options', function (done) {
+  tap.test('should accept auth and options', function (tt) {
     var keyId = 'cnz2yjswbv3jd'
     var keySecret = '0hydMZDb9HRR3Qq-iqALwZtXLkbLR4fWxtDZvkB9h4I'
     var options = {
@@ -52,19 +49,15 @@ lab.describe('Constructor', function () {
       pair: 'XBTUSD'
     }
     var bitx = new BitX(keyId, keySecret, options)
-    expect(bitx.hostname).to.equal(options.hostname)
-    expect(bitx.port).to.equal(options.port)
-    expect(bitx.pair).to.equal(options.pair)
-    expect(bitx.auth).to.equal(keyId + ':' + keySecret)
-    done()
+    tt.equal(bitx.hostname, options.hostname)
+    tt.equal(bitx.port, options.port)
+    tt.equal(bitx.pair, options.pair)
+    tt.equal(bitx.auth, keyId + ':' + keySecret)
+    tt.end()
   })
 })
 
-lab.describe('Internal', function () {
-  var bitx
-  var request
-  var stub
-
+tap.test('Internal', {autoend: true}, function (t) {
   var keyId = '12345'
   var keySecret = '0000000000000000'
   var path = 'test'
@@ -80,248 +73,199 @@ lab.describe('Internal', function () {
     auth: keyId + ':' + keySecret
   }
 
-  lab.before(function (done) {
-    bitx = new BitX(keyId, keySecret)
-    request = sinon.stub(https, 'request')
-    stub = request.withArgs(sinon.match(expectedOptions))
-    done()
-  })
+  var bitx = new BitX(keyId, keySecret)
+  var request = sinon.stub(https, 'request')
+  var stub = request.withArgs(sinon.match(expectedOptions))
 
-  lab.after(function (done) {
-    request.restore()
-    done()
-  })
-
-  lab.afterEach(function (done) {
+  t.afterEach(function (done) {
     stub.reset()
     done()
   })
 
-  lab.describe('_request', function () {
-    lab.it('should return the expected result', function (done) {
-      var expectedResult = {success: true}
-      stub.returns(new FakeRequest(expectedResult))
-      bitx._request('GET', path, null, function (err, result) {
-        expect(err).to.be.null()
-        expect(result).to.eql(expectedResult)
-        done()
-      })
-    })
+  t.tearDown(function () {
+    request.restore()
+  })
 
-    lab.it('should return an error if request emits an error', function (done) {
-      stub.returns(new FakeRequest(null, {fail: true}))
-      bitx._request('GET', path, null, function (err) {
-        expect(err).to.be.instanceOf(Error)
-        done()
-      })
+  t.test('_request should return the expected result', function (tt) {
+    var expectedResult = {success: true}
+    stub.returns(new FakeRequest(expectedResult))
+    bitx._request('GET', path, null, function (err, result) {
+      tt.ifErr(err)
+      tt.deepEqual(result, expectedResult)
+      tt.end()
     })
+  })
 
-    lab.it('should return an error if the response is not valid', function (done) {
-      stub.returns(new FakeRequest('invalid', {stringify: false}))
-      bitx._request('GET', path, null, function (err) {
-        expect(err).to.be.instanceOf(Error)
-        done()
-      })
+  t.test('_request should return an error if request emits an error', function (tt) {
+    stub.returns(new FakeRequest(null, {fail: true}))
+    bitx._request('GET', path, null, function (err) {
+      tt.type(err, 'Error')
+      tt.end()
     })
+  })
 
-    lab.it('should return an error if the response contains an error', function (done) {
-      stub.returns(new FakeRequest({error: true}))
-      bitx._request('GET', path, null, function (err) {
-        expect(err).to.be.instanceOf(Error)
-        done()
-      })
+  t.test('_request should return an error if the response is not valid', function (tt) {
+    stub.returns(new FakeRequest('invalid', {stringify: false}))
+    bitx._request('GET', path, null, function (err) {
+      tt.type(err, 'Error')
+      tt.end()
     })
+  })
 
-    lab.it('should return an error if the response is unauthorized', function (done) {
-      stub.returns(new FakeRequest(null, {statusCode: 401}))
-      bitx._request('GET', path, null, function (err) {
-        expect(err).to.be.instanceOf(Error)
-        done()
-      })
+  t.test('_request should return an error if the response contains an error', function (tt) {
+    stub.returns(new FakeRequest({error: true}))
+    bitx._request('GET', path, null, function (err) {
+      tt.type(err, 'Error')
+      tt.end()
+    })
+  })
+
+  t.test('_request should return an error if the response is unauthorized', function (tt) {
+    stub.returns(new FakeRequest(null, {statusCode: 401}))
+    bitx._request('GET', path, null, function (err) {
+      tt.type(err, 'Error')
+      tt.end()
     })
   })
 })
 
-lab.describe('External', function () {
-  var bitx
+tap.test('External', {autoend: true}, function (t) {
+  var bitx = new BitX()
+  var callback = function () {}
   var mock
 
-  var callback = function () {}
-
-  lab.before(function (done) {
-    bitx = new BitX()
-    done()
-  })
-
-  lab.beforeEach(function (done) {
+  t.beforeEach(function (done) {
     mock = sinon.mock(bitx)
     done()
   })
 
-  lab.afterEach(function (done) {
+  t.afterEach(function (done) {
     mock.restore()
     done()
   })
 
-  lab.describe('getTicker', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'ticker', {pair: 'XBTZAR'}, callback)
-      bitx.getTicker(callback)
-      mock.verify()
-      done()
-    })
-
-    lab.it('should accept a pair option', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'ticker', {pair: 'XBTMYR'}, callback)
-      bitx.getTicker({pair: 'XBTMYR'}, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getTicker should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'ticker', {pair: 'XBTZAR'}, callback)
+    bitx.getTicker(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getAllTickers', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'tickers', null, callback)
-      bitx.getAllTickers(callback)
-      mock.verify()
-      done()
-    })
+  t.test('getTicker should accept a pair option', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'ticker', {pair: 'XBTMYR'}, callback)
+    bitx.getTicker({pair: 'XBTMYR'}, callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getOrderBook', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'orderbook', {pair: 'XBTZAR'}, callback)
-      bitx.getOrderBook(callback)
-      mock.verify()
-      done()
-    })
-
-    lab.it('should accept a pair option', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'orderbook', {pair: 'XBTMYR'}, callback)
-      bitx.getOrderBook({pair: 'XBTMYR'}, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getAllTickers should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'tickers', null, callback)
+    bitx.getAllTickers(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getTrades', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'trades', {pair: 'XBTZAR'}, callback)
-      bitx.getTrades(callback)
-      mock.verify()
-      done()
-    })
-
-    lab.it('should accept a pair option', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'trades', {pair: 'XBTMYR'}, callback)
-      bitx.getTrades({pair: 'XBTMYR'}, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getOrderBook should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'orderbook', {pair: 'XBTZAR'}, callback)
+    bitx.getOrderBook(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getOrderList', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'listorders', {pair: 'XBTZAR'}, callback)
-      bitx.getOrderList(callback)
-      mock.verify()
-      done()
-    })
-
-    lab.it('should accept a pair option', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'listorders', {pair: 'XBTMYR'}, callback)
-      bitx.getOrderList({pair: 'XBTMYR'}, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getOrderBook should accept a pair option', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'orderbook', {pair: 'XBTMYR'}, callback)
+    bitx.getOrderBook({pair: 'XBTMYR'}, callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getLimits', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'BTCZAR/getlimits', null, callback)
-      bitx.getLimits(callback)
-      mock.verify()
-      done()
-    })
+  t.test('getTrades should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTZAR'}, callback)
+    bitx.getTrades(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('postBuyOrder', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      var parameters = {
-        type: 'BID',
-        volume: 9999.99,
-        price: 0.001,
-        pair: 'XBTZAR'
-      }
-      mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
-      bitx.postBuyOrder(parameters.volume, parameters.price, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getTrades should accept a pair option', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTMYR'}, callback)
+    bitx.getTrades({pair: 'XBTMYR'}, callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('postSellOrder', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      var parameters = {
-        type: 'ASK',
-        volume: 0.001,
-        price: 9999.99,
-        pair: 'XBTZAR'
-      }
-      mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
-      bitx.postSellOrder(parameters.volume, parameters.price, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getOrderList should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'listorders', {pair: 'XBTZAR'}, callback)
+    bitx.getOrderList(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('stopOrder', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      var body = {
-        order_id: 'BXMC2CJ7HNB88U4'
-      }
-      mock.expects('_request').once().withArgs('POST', 'stoporder', body, callback)
-      bitx.stopOrder(body.order_id, callback)
-      mock.verify()
-      done()
-    })
+  t.test('getOrderList should accept a pair option', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'listorders', {pair: 'XBTMYR'}, callback)
+    bitx.getOrderList({pair: 'XBTMYR'}, callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getBalance', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'balance', null, callback)
-      bitx.getBalance(callback)
-      mock.verify()
-      done()
-    })
-
-    lab.it('should accept an asset argument and call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'balance', {asset: 'ZAR'}, callback)
-      bitx.getBalance('ZAR', callback)
-      mock.verify()
-      done()
-    })
+  t.test('getLimits should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'BTCZAR/getlimits', null, callback)
+    bitx.getLimits(callback)
+    mock.verify()
+    tt.end()
   })
 
-  lab.describe('getFundingAddress', function () {
-    lab.it('should call _request with the correct parameters', function (done) {
-      mock.expects('_request').once().withArgs(
-        'GET', 'funding_address', {asset: 'XBT'}, callback)
-      bitx.getFundingAddress('XBT', callback)
-      mock.verify()
-      done()
-    })
+  t.test('postBuyOrder should call _request with the correct parameters', function (tt) {
+    var parameters = {
+      type: 'BID',
+      volume: 9999.99,
+      price: 0.001,
+      pair: 'XBTZAR'
+    }
+    mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
+    bitx.postBuyOrder(parameters.volume, parameters.price, callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('postSellOrder should call _request with the correct parameters', function (tt) {
+    var parameters = {
+      type: 'ASK',
+      volume: 0.001,
+      price: 9999.99,
+      pair: 'XBTZAR'
+    }
+    mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
+    bitx.postSellOrder(parameters.volume, parameters.price, callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('stopOrder should call _request with the correct parameters', function (tt) {
+    var body = {order_id: 'BXMC2CJ7HNB88U4'}
+    mock.expects('_request').once().withArgs('POST', 'stoporder', body, callback)
+    bitx.stopOrder(body.order_id, callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('getBalance should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'balance', null, callback)
+    bitx.getBalance(callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('getBalance should accept an asset argument and call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'balance', {asset: 'ZAR'}, callback)
+    bitx.getBalance('ZAR', callback)
+    mock.verify()
+    tt.end()
+  })
+
+  t.test('should call _request with the correct parameters', function (tt) {
+    mock.expects('_request').once().withArgs('GET', 'funding_address', {asset: 'XBT'}, callback)
+    bitx.getFundingAddress('XBT', callback)
+    mock.verify()
+    tt.end()
   })
 })
