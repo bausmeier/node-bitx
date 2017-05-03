@@ -19,8 +19,8 @@
     "cover": "tap --cov --coverage-report=html test/{IntegrationTests,UnitTests}.js"
   },
   "devDependencies": {
-    "sinon": "^1.14.1",
-    "standard": "^6.0.7",
-    "tap": "^5.6.0"
+    "sinon": "^2.2.0",
+    "standard": "^10.0.2",
+    "tap": "^10.3.2"
   }
 }
