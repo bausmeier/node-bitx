@@ -15,7 +15,8 @@
   },
   "main": "./lib/BitX",
   "scripts": {
-    "test": "standard && tap --cov test/{IntegrationTests,UnitTests}.js",
+    "lint": "standard",
+    "test": "tap --cov test/{IntegrationTests,UnitTests}.js",
     "cover": "tap --cov --coverage-report=html test/{IntegrationTests,UnitTests}.js"
   },
   "devDependencies": {
