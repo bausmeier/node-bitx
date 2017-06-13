@@ -1,3 +1,7 @@
+### 1.5.1
+
+* Fix an issue with GET requests sent after POST requests
+
 ### 1.5.0
 
 * Add getOrder method
