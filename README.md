@@ -217,6 +217,17 @@ Example:
 bitx.getTransactions('XBT', {offset: 5, limit: 20}, function(err, transactions) {});
 ```
 
+### getPendingTransactions(account_id, callback)
+GET https://api.mybitx.com/api/1/accounts/:id/pending
+
+You can find your account_id by calling the Balances API.
+
+Example:
+
+```javascript
+bitx.getPendingTransactions('319232323', function(err, pendingTransactions) {});
+```
+
 ### getWithdrawals(callback)
 GET https://api.mybitx.com/api/1/withdrawals
 
