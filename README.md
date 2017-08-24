@@ -208,7 +208,7 @@ You can find your account_id by calling the Balances API.
 Default options:
 ```javascript
 {
-  min_row: 0,
+  min_row: 1,
   max_row: 100
 }
 ```
