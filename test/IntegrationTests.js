@@ -587,7 +587,7 @@ tap.test('getTransactions should return the transactions', function (t) {
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=1&max_row=10')
+    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=1&max_row=100')
     res.end(JSON.stringify(expectedTransactions))
   })
 
