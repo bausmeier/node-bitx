@@ -18,9 +18,10 @@
   "scripts": {
     "lint": "standard",
     "test": "tap --cov test/{IntegrationTests,UnitTests,Regression}.js",
-    "cover": "tap --cov --coverage-report=html test/{IntegrationTests,UnitTests,Regression}.js"
+    "codecov": "tap --coverage-report=lcov && codecov"
   },
   "devDependencies": {
+    "codecov": "^2.3.0",
     "sinon": "^2.3.4",
     "standard": "^10.0.2",
     "tap": "^10.3.3"
