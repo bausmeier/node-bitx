@@ -201,21 +201,34 @@ Example:
 bitx.getOrder('BXHW6PFRRXKFSB4', function(err, result) {});
 ```
 
-### getTransactions(asset, [options, ]callback)
-GET https://api.mybitx.com/api/1/transactions
+### getTransactions(accountId, [options, ]callback)
+GET https://api.mybitx.com/api/1/accounts/{accountId}/transactions
+
+You can find your accountId by calling the Balances API.
 
 Default options:
 ```javascript
 {
-  offset: 0,
-  limit: 10
+  min_row: 1,
+  max_row: 100
 }
 ```
 
 Example:
 
 ```javascript
-bitx.getTransactions('XBT', {offset: 5, limit: 20}, function(err, transactions) {});
+bitx.getTransactions('319232323', {min_row: 5, max_row: 20}, function(err, transactions) {});
+```
+
+### getPendingTransactions(accountId, callback)
+GET https://api.mybitx.com/api/1/accounts/{accountId}/pending
+
+You can find your accountId by calling the Balances API.
+
+Example:
+
+```javascript
+bitx.getPendingTransactions('319232323', function(err, pendingTransactions) {});
 ```
 
 ### getWithdrawals(callback)

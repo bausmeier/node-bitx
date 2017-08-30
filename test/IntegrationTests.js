@@ -587,11 +587,11 @@ tap.test('getTransactions should return the transactions', function (t) {
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/transactions?asset=XBT&offset=0&limit=10')
+    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=1&max_row=100')
     res.end(JSON.stringify(expectedTransactions))
   })
 
-  bitx.getTransactions('XBT', function (err, transactions) {
+  bitx.getTransactions('1224342323', function (err, transactions) {
     t.ifErr(err)
     t.deepEqual(transactions, expectedTransactions)
     t.end()
@@ -625,15 +625,15 @@ tap.test('getTransactions should send options and return the transactions', func
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/transactions?asset=XBT&offset=5&limit=5')
+    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=1&max_row=3')
     res.end(JSON.stringify(expectedTransactions))
   })
 
   var options = {
-    offset: 5,
-    limit: 5
+    min_row: 1,
+    max_row: 3
   }
-  bitx.getTransactions('XBT', options, function (err, transactions) {
+  bitx.getTransactions('1224342323', options, function (err, transactions) {
     t.ifErr(err)
     t.deepEqual(transactions, expectedTransactions)
     t.end()
