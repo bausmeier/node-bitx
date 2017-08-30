@@ -625,13 +625,13 @@ tap.test('getTransactions should send options and return the transactions', func
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=5&max_row=5')
+    t.equal(req.url, '/api/1/accounts/1224342323/transactions?min_row=1&max_row=3')
     res.end(JSON.stringify(expectedTransactions))
   })
 
   var options = {
-    min_row: 5,
-    max_row: 5
+    min_row: 1,
+    max_row: 3
   }
   bitx.getTransactions('1224342323', options, function (err, transactions) {
     t.ifErr(err)
