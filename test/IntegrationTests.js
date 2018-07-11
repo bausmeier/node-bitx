@@ -125,7 +125,7 @@ tap.test('getTrades should return the expected trades', function (t) {
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/trades?pair=XBTZAR')
+    t.equal(req.url, '/api/1/trades?pair=XBTZAR&since=0')
     res.end(JSON.stringify(expectedTrades))
   })
 
@@ -587,7 +587,7 @@ tap.test('getTransactions should return the transactions', function (t) {
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/transactions?asset=XBT&offset=0&limit=10')
+    t.equal(req.url, '/api/1/accounts/XBT/transactions?min_row=1&max_row=1000')
     res.end(JSON.stringify(expectedTransactions))
   })
 
@@ -625,15 +625,15 @@ tap.test('getTransactions should send options and return the transactions', func
 
   server.on('request', function (req, res) {
     t.equal(req.method, 'GET')
-    t.equal(req.url, '/api/1/transactions?asset=XBT&offset=5&limit=5')
+    t.equal(req.url, '/api/1/accounts/99999999/transactions?min_row=1&max_row=5')
     res.end(JSON.stringify(expectedTransactions))
   })
 
   var options = {
-    offset: 5,
-    limit: 5
+    min_row: 1,
+    max_row: 5
   }
-  bitx.getTransactions('XBT', options, function (err, transactions) {
+  bitx.getTransactions('99999999', options, function (err, transactions) {
     t.ifErr(err)
     t.deepEqual(transactions, expectedTransactions)
     t.end()
@@ -729,6 +729,106 @@ tap.test('cancelWithdrawal should delete the specified withdrawal', function (t)
   bitx.cancelWithdrawal('1212', function (err, withdrawal) {
     t.ifErr(err)
     t.deepEqual(withdrawal, expectedWithdrawal)
+    t.end()
+  })
+})
+
+tap.test('getFee should return the fee', function (t) {
+  var expectedFee = {
+    thirty_day_volume: '0.00',
+    maker_fee: '0.00',
+    taker_fee: '0.01'
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/fee_info?pair=XBTZAR')
+    res.end(JSON.stringify(expectedFee))
+  })
+
+  bitx.getFee(function (err, res) {
+    t.ifErr(err)
+    t.deepEqual(res, expectedFee)
+    t.end()
+  })
+})
+
+tap.test('getFee should send options and return the fee', function (t) {
+  var expectedFee = {
+    thirty_day_volume: '0.00',
+    maker_fee: '0.00',
+    taker_fee: '0.01'
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/fee_info?pair=XBTZAR')
+    res.end(JSON.stringify(expectedFee))
+  })
+
+  var options = {
+    pair: 'XBTZAR'
+  }
+
+  bitx.getFee(options, function (err, res) {
+    t.ifErr(err)
+    t.deepEqual(res, expectedFee)
+    t.end()
+  })
+})
+
+tap.test('getTradesList should return the trades list', function (t) {
+  var expectedTradesList = {
+  	pair: 'XBTZAR',
+		order_id: 'BXKDDK2ZVABCDEF',
+		type: 'ASK',
+		timestamp: 1511115163537,
+		price: '34500.00',
+		volume: '0.0666',
+		base: '0.0666',
+		counter: '2000.00',
+		fee_base: '0.00',
+		fee_counter: '0.00',
+		is_buy: true
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/listtrades?pair=XBTZAR&since=0&limit=100')
+    res.end(JSON.stringify(expectedTradesList))
+  })
+
+  bitx.getTradesList(0, function (err, res) {
+    t.ifErr(err)
+    t.deepEqual(res, expectedTradesList)
+    t.end()
+  })
+})
+
+tap.test('getTradesList should send options and return the trades list', function (t) {
+  var expectedTradesList = {
+  	pair: 'XBTZAR',
+		order_id: 'BXKDDK2ZVABCDEF',
+		type: 'ASK',
+		timestamp: 1511115163537,
+		price: '34500.00',
+		volume: '0.0666',
+		base: '0.0666',
+		counter: '2000.00',
+		fee_base: '0.00',
+		fee_counter: '0.00',
+		is_buy: true
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/listtrades?pair=XBTZAR&since=1000&limit=10')
+    res.end(JSON.stringify(expectedTradesList))
+  })
+
+  bitx.getTradesList(1000, 10, function (err, res) {
+    t.ifErr(err)
+    t.deepEqual(res, expectedTradesList)
     t.end()
   })
 })

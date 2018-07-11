@@ -180,14 +180,14 @@ tap.test('External', {autoend: true}, function (t) {
   })
 
   t.test('getTrades should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTZAR', since: 0}, callback)
     bitx.getTrades(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getTrades should accept a pair option', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTMYR'}, callback)
+    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTMYR', since: 0}, callback)
     bitx.getTrades({pair: 'XBTMYR'}, callback)
     mock.verify()
     tt.end()
