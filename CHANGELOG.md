@@ -1,6 +1,7 @@
 ### 1.6.0
 
-* add `options` to methods `postBuyOrder`, `postMarketBuyOrder`, `postSellOrder` and `postMarketSellOrder`
+* Add options to postBuyOrder, postMarketBuyOrder, postSellOrder and postMarketSellOrder
+* Add getFeeInfo method
 
 ### 1.5.1
 

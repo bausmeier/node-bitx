@@ -147,6 +147,23 @@ Example:
 bitx.createFundingAddress('XBT', function(err, fundingAddress) {});
 ```
 
+### getFeeInfo([options, ]callback)
+GET https://api.mybitx.com/api/1/fee_info
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair
+}
+```
+
+Example:
+
+```javascript
+bitx.getFeeInfo({pair: 'XBTZAR'}, function(err, feeInfo) {});
+```
+
 ### postBuyOrder(volume, price, [options, ]callback)
 POST https://api.mybitx.com/api/1/postorder
 

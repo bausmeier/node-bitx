@@ -222,6 +222,46 @@ tap.test('getLimits should return the expected limits', function (t) {
   })
 })
 
+tap.test('getFeeInfo should return the expected fee info', function (t) {
+  var expectedFeeInfo = {
+    maker_fee: '0.00',
+    taker_fee: '0.01',
+    thirty_day_volume: '0.016336'
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/fee_info?pair=XBTZAR')
+    res.end(JSON.stringify(expectedFeeInfo))
+  })
+
+  bitx.getFeeInfo(function (err, limits) {
+    t.ifErr(err)
+    t.deepEqual(limits, expectedFeeInfo)
+    t.end()
+  })
+})
+
+tap.test('getFeeInfo should accept options', function (t) {
+  var expectedFeeInfo = {
+    maker_fee: '0.00',
+    taker_fee: '0.01',
+    thirty_day_volume: '0.016336'
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/fee_info?pair=XBTZAR')
+    res.end(JSON.stringify(expectedFeeInfo))
+  })
+
+  bitx.getFeeInfo({pair: 'XBTZAR'}, function (err, limits) {
+    t.ifErr(err)
+    t.deepEqual(limits, expectedFeeInfo)
+    t.end()
+  })
+})
+
 tap.test('postBuyOrder should post the correct fields and return an order id', function (t) {
   var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
   var volume = 9999.99
