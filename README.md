@@ -147,7 +147,7 @@ Example:
 bitx.createFundingAddress('XBT', function(err, fundingAddress) {});
 ```
 
-### postBuyOrder(volume, price, callback)
+### postBuyOrder(volume, price, [options, ]callback)
 POST https://api.mybitx.com/api/1/postorder
 
 Example:
@@ -156,7 +156,7 @@ Example:
 bitx.postBuyOrder(9999.99, 0.01, function(err, order) {});
 ```
 
-### postSellOrder(volume, price, callback)
+### postSellOrder(volume, price, [options, ]callback)
 POST https://api.mybitx.com/api/1/postorder
 
 Example:
@@ -165,7 +165,7 @@ Example:
 bitx.postSellOrder(0.01, 9999.99, function(err, order) {});
 ```
 
-### postMarketBuyOrder(volume, callback)
+### postMarketBuyOrder(volume, [options, ]callback)
 POST https://api.mybitx.com/api/1/marketorder
 
 Example:
@@ -174,7 +174,7 @@ Example:
 bitx.postMarketBuyOrder(0.01, function(err, order) {});
 ```
 
-### postMarketSellOrder(volume, callback)
+### postMarketSellOrder(volume, [options, ]callback)
 POST https://api.mybitx.com/api/1/marketorder
 
 Example:

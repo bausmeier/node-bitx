@@ -252,6 +252,36 @@ tap.test('postBuyOrder should post the correct fields and return an order id', f
   })
 })
 
+tap.test('postBuyOrder should accept options', function (t) {
+  var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
+  var volume = 9999.99
+  var price = 0.0001
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'POST')
+    t.equal(req.url, '/api/1/postorder')
+    t.equal(req.headers['content-type'], 'application/x-www-form-urlencoded')
+    var body = ''
+    req.on('data', function (data) {
+      body += data
+    })
+    req.on('end', function () {
+      body = querystring.parse(body)
+      t.equal(body.type, 'BID')
+      t.equal(body.volume, volume.toString())
+      t.equal(body.price, price.toString())
+      t.equal(body.pair, 'XBTZAR')
+      res.end(JSON.stringify(expectedOrder))
+    })
+  })
+
+  bitx.postBuyOrder(volume, price, {post_only: true}, function (err, order) {
+    t.ifErr(err)
+    t.deepEqual(order, expectedOrder)
+    t.end()
+  })
+})
+
 tap.test('postBuyOrder should return an error if the order would exceed order limits', function (t) {
   var expectedError = 'Order would exceed your order limits.'
 
@@ -293,6 +323,32 @@ tap.test('postMarketBuyOrder should post the correct fields and return an order 
   })
 })
 
+tap.test('postMarketBuyOrder should accept options', function (t) {
+  var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'POST')
+    t.equal(req.url, '/api/1/marketorder')
+    var body = ''
+    req.on('data', function (data) {
+      body += data
+    })
+    req.on('end', function () {
+      body = querystring.parse(body)
+      t.equal(body.type, 'BUY')
+      t.equal(body.counter_volume, '100.50')
+      t.equal(body.pair, 'XBTZAR')
+      res.end(JSON.stringify(expectedOrder))
+    })
+  })
+
+  bitx.postMarketBuyOrder('100.50', {base_account_id: 12345}, function (err, order) {
+    t.ifErr(err)
+    t.deepEqual(order, expectedOrder)
+    t.end()
+  })
+})
+
 tap.test('postSellOrder should post the correct fields and return an order id', function (t) {
   var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
   var volume = 0.001
@@ -323,6 +379,36 @@ tap.test('postSellOrder should post the correct fields and return an order id', 
   })
 })
 
+tap.test('postSellOrder should accept options', function (t) {
+  var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
+  var volume = 0.001
+  var price = 9999.99
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'POST')
+    t.equal(req.url, '/api/1/postorder')
+    t.equal(req.headers['content-type'], 'application/x-www-form-urlencoded')
+    var body = ''
+    req.on('data', function (data) {
+      body += data
+    })
+    req.on('end', function () {
+      body = querystring.parse(body)
+      t.equal(body.type, 'ASK')
+      t.equal(body.volume, volume.toString())
+      t.equal(body.price, price.toString())
+      t.equal(body.pair, 'XBTZAR')
+      res.end(JSON.stringify(expectedOrder))
+    })
+  })
+
+  bitx.postSellOrder(volume, price, {post_only: true}, function (err, order) {
+    t.ifErr(err)
+    t.deepEqual(order, expectedOrder)
+    t.end()
+  })
+})
+
 tap.test('postMarketSellOrder should post the correct fields and return an order id', function (t) {
   var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
 
@@ -343,6 +429,32 @@ tap.test('postMarketSellOrder should post the correct fields and return an order
   })
 
   bitx.postMarketSellOrder('100.50', function (err, order) {
+    t.ifErr(err)
+    t.deepEqual(order, expectedOrder)
+    t.end()
+  })
+})
+
+tap.test('postMarketSellOrder should accept options', function (t) {
+  var expectedOrder = {order_id: 'BXMC2CJ7HNB88U4'}
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'POST')
+    t.equal(req.url, '/api/1/marketorder')
+    var body = ''
+    req.on('data', function (data) {
+      body += data
+    })
+    req.on('end', function () {
+      body = querystring.parse(body)
+      t.equal(body.type, 'SELL')
+      t.equal(body.base_volume, '100.50')
+      t.equal(body.pair, 'XBTZAR')
+      res.end(JSON.stringify(expectedOrder))
+    })
+  })
+
+  bitx.postMarketSellOrder('100.50', {base_account_id: 12345}, function (err, order) {
     t.ifErr(err)
     t.deepEqual(order, expectedOrder)
     t.end()

@@ -1,3 +1,7 @@
+### 1.6.0
+
+* add `options` to methods `postBuyOrder`, `postMarketBuyOrder`, `postSellOrder` and `postMarketSellOrder`
+
 ### 1.5.1
 
 * Fix an issue with GET requests sent after POST requests
