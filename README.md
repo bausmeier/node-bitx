@@ -94,6 +94,23 @@ Example:
 bitx.getTrades(function(err, trades) {});
 ```
 
+### getTradeList([options, ]callback)
+GET https://api.mybitx.com/api/1/listtrades
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair
+}
+```
+
+Example:
+
+```javascript
+bitx.getTradeList({sort_desc: true, limit: 10}, function(err, tradeList) {});
+```
+
 ### getOrderList([options, ]callback)
 GET https://api.mybitx.com/api/1/listorders
 

@@ -203,6 +203,89 @@ tap.test('getOrderList should return the expected order list for the given state
   })
 })
 
+tap.test('getTradeList should return the expected trade list', function (t) {
+  var expectedTradeList = {
+    trades: [
+      {
+        pair: "XBTZAR",
+        sequence: 7562242,
+        order_id: "BXCYRHZZJT9XZP9",
+        type: "ASK",
+        timestamp: 1579472779614,
+        price: "131671.00",
+        volume: "0.079446",
+        base: "0.079446",
+        counter: "10460.734266",
+        fee_base: "0.00",
+        fee_counter: "0.00",
+        is_buy: true
+      },
+      {
+        pair: "XBTZAR",
+        sequence: 7562151,
+        order_id: "BXBVV69D2J4ZMDG",
+        type: "BID",
+        timestamp: 1579472099102,
+        price: "132021.00",
+        volume: "0.124201",
+        base: "0.124201",
+        counter: "16397.140221",
+        fee_base: "0.00",
+        fee_counter: "0.00",
+        is_buy: false
+      }
+    ]
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/listtrades?pair=XBTZAR')
+    res.end(JSON.stringify(expectedTradeList))
+  })
+
+  bitx.getTradeList(function (err, orderList) {
+    t.ifErr(err)
+    t.deepEqual(orderList, expectedTradeList)
+    t.end()
+  })
+})
+
+tap.test('getOrderList should return the expected trade list with expected limit', function (t) {
+  var expectedOrderList = {
+    trades: [
+      {
+        pair: "XBTZAR",
+        sequence: 7562242,
+        order_id: "BXCYRHZZJT9XZP9",
+        type: "ASK",
+        timestamp: 1579472779614,
+        price: "131671.00",
+        volume: "0.079446",
+        base: "0.079446",
+        counter: "10460.734266",
+        fee_base: "0.00",
+        fee_counter: "0.00",
+        is_buy: true
+      }
+    ]
+  }
+
+  server.on('request', function (req, res) {
+    t.equal(req.method, 'GET')
+    t.equal(req.url, '/api/1/listtrades?pair=XBTZAR&limit=1')
+    res.end(JSON.stringify(expectedOrderList))
+  })
+
+  var options = {
+    limit: 1
+  }
+  bitx.getTradeList(options, function (err, orderList) {
+    t.ifErr(err)
+    t.deepEqual(orderList, expectedOrderList)
+    t.end()
+  })
+})
+
 tap.test('getLimits should return the expected limits', function (t) {
   var expectedLimits = {
     ask_btc_limit: '1.00',

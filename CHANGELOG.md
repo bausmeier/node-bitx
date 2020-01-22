@@ -1,3 +1,7 @@
+### 1.7.0
+
+* Add getTradeList method
+
 ### 1.6.0
 
 * Add options to postBuyOrder, postMarketBuyOrder, postSellOrder and postMarketSellOrder

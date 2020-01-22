@@ -1,6 +1,6 @@
 {
   "name": "bitx",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "Brett Ausmeier <brett@ausmeier.co.za>",
   "description": "A simple wrapper for the Luno API.",
   "license": "MIT",
