@@ -1,3 +1,7 @@
+### 1.7.1
+
+* Parse Luno API errors
+
 ### 1.7.0
 
 * Add getTradeList method
