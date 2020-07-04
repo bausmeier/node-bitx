@@ -21,7 +21,7 @@ tap.test('BitX constructor', {autoend: true}, function (t) {
 
   tap.test('should have default options', function (tt) {
     var bitx = new BitX()
-    tt.equal(bitx.hostname, 'api.mybitx.com')
+    tt.equal(bitx.hostname, 'api.luno.com')
     tt.equal(bitx.port, 443)
     tt.equal(bitx.pair, 'XBTZAR')
     tt.end()
@@ -67,7 +67,7 @@ tap.test('Internal', {autoend: true}, function (t) {
       'Accept': 'application/json',
       'Accept-Charset': 'utf-8'
     },
-    hostname: 'api.mybitx.com',
+    hostname: 'api.luno.com',
     path: '/api/1/' + path,
     port: 443,
     auth: keyId + ':' + keySecret

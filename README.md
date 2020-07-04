@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/bausmeier/node-bitx.png)](https://travis-ci.org/bausmeier/node-bitx)
 [![codecov](https://codecov.io/gh/bausmeier/node-bitx/branch/master/graph/badge.svg)](https://codecov.io/gh/bausmeier/node-bitx)
 
-A simple wrapper for the BitX API.
+A simple wrapper for the Luno API.
 
 ## Usage
 Add bitx as a dependency:
@@ -12,13 +12,13 @@ $ npm install --save bitx
 ```
 
 ### BitX([keyId, keySecret, ][options])
-To access the private BitX API methods you must supply your key id and key secret as the first two arguments. If you are only accessing the public API endpoints you can leave these two arguments out.
+To access the private Luno API methods you must supply your key id and key secret as the first two arguments. If you are only accessing the public API endpoints you can leave these two arguments out.
 
 The optional options argument can be used to override the default options. The default options are equivalent to:
 
 ```javascript
 {
-  hostname: 'api.mybitx.com',
+  hostname: 'api.luno.com',
   port: 443,
   ca: undefined,
   pair: 'XBTZAR'
@@ -26,7 +26,7 @@ The optional options argument can be used to override the default options. The d
 ```
 
 ## Methods
-For details about the API endpoints see https://api.mybitx.com/api.
+For details about the API endpoints see https://www.luno.com/en/developers/api.
 
 ### Callbacks
 The arguments passed to the callback function for each method are:
@@ -35,7 +35,7 @@ The arguments passed to the callback function for each method are:
 1. An object containing the data returned by the BitX API.
 
 ### getTicker([options, ]callback)
-GET https://api.mybitx.com/api/1/ticker
+GET https://api.luno.com/api/1/ticker/XBTZAR
 
 Default options:
 
@@ -52,7 +52,7 @@ bitx.getTicker(function(err, ticker) {});
 ```
 
 ### getAllTickers(callback)
-GET https://api.mybitx.com/api/1/tickers
+GET https://api.luno.com/api/1/tickers
 
 Example:
 
@@ -61,7 +61,7 @@ bitx.getAllTickers(function(err, tickers) {});
 ```
 
 ### getOrderBook([options, ]callback)
-GET https://api.mybitx.com/api/1/orderbook
+GET https://api.luno.com/api/1/orderbook
 
 Default options:
 
@@ -78,7 +78,7 @@ bitx.getOrderBook(function(err, orderBook) {});
 ```
 
 ### getTrades([options, ]callback)
-GET https://api.mybitx.com/api/1/trades
+GET https://api.luno.com/api/1/trades
 
 Default options:
 
@@ -95,7 +95,7 @@ bitx.getTrades(function(err, trades) {});
 ```
 
 ### getTradeList([options, ]callback)
-GET https://api.mybitx.com/api/1/listtrades
+GET https://api.luno.com/api/1/listtrades
 
 Default options:
 
@@ -112,7 +112,7 @@ bitx.getTradeList({sort_desc: true, limit: 10}, function(err, tradeList) {});
 ```
 
 ### getOrderList([options, ]callback)
-GET https://api.mybitx.com/api/1/listorders
+GET https://api.luno.com/api/1/listorders
 
 Default options:
 
@@ -130,7 +130,7 @@ bitx.getOrderList({state: 'PENDING'}, function(err, orderList) {});
 ```
 
 ### getBalance([asset, ]callback)
-GET https://api.mybitx.com/api/1/balance
+GET https://api.luno.com/api/1/balance
 
 Example:
 
@@ -139,7 +139,7 @@ bitx.getBalance('ZAR', function(err, balance) {});
 ```
 
 ### getFundingAddress(asset, [options, ]callback)
-GET https://api.mybitx.com/api/1/funding_address
+GET https://api.luno.com/api/1/funding_address
 
 Default options:
 
@@ -156,7 +156,7 @@ bitx.getFundingAddress('XBT', {address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'}, fu
 ```
 
 ### createFundingAddress(asset, callback)
-POST https://api.mybitx.com/api/1/funding_address
+POST https://api.luno.com/api/1/funding_address
 
 Example:
 
@@ -165,7 +165,7 @@ bitx.createFundingAddress('XBT', function(err, fundingAddress) {});
 ```
 
 ### getFeeInfo([options, ]callback)
-GET https://api.mybitx.com/api/1/fee_info
+GET https://api.luno.com/api/1/fee_info
 
 Default options:
 
@@ -182,7 +182,7 @@ bitx.getFeeInfo({pair: 'XBTZAR'}, function(err, feeInfo) {});
 ```
 
 ### postBuyOrder(volume, price, [options, ]callback)
-POST https://api.mybitx.com/api/1/postorder
+POST https://api.luno.com/api/1/postorder
 
 Example:
 
@@ -191,7 +191,7 @@ bitx.postBuyOrder(9999.99, 0.01, function(err, order) {});
 ```
 
 ### postSellOrder(volume, price, [options, ]callback)
-POST https://api.mybitx.com/api/1/postorder
+POST https://api.luno.com/api/1/postorder
 
 Example:
 
@@ -200,7 +200,7 @@ bitx.postSellOrder(0.01, 9999.99, function(err, order) {});
 ```
 
 ### postMarketBuyOrder(volume, [options, ]callback)
-POST https://api.mybitx.com/api/1/marketorder
+POST https://api.luno.com/api/1/marketorder
 
 Example:
 
@@ -209,7 +209,7 @@ bitx.postMarketBuyOrder(0.01, function(err, order) {});
 ```
 
 ### postMarketSellOrder(volume, [options, ]callback)
-POST https://api.mybitx.com/api/1/marketorder
+POST https://api.luno.com/api/1/marketorder
 
 Example:
 
@@ -218,7 +218,7 @@ bitx.postMarketSellOrder(0.01, function(err, order) {});
 ```
 
 ### stopOrder(orderId, callback)
-POST https://api.mybitx.com/api/1/stoporder
+POST https://api.luno.com/api/1/stoporder
 
 Example:
 
@@ -227,7 +227,7 @@ bitx.stopOrder('BXMC2CJ7HNB88U4', function(err, result) {});
 ```
 
 ### getOrder(orderId, callback)
-GET https://api.mybitx.com/api/1/orders/{orderId}
+GET https://api.luno.com/api/1/orders/{orderId}
 
 Example:
 
@@ -236,7 +236,7 @@ bitx.getOrder('BXHW6PFRRXKFSB4', function(err, result) {});
 ```
 
 ### getTransactions(asset, [options, ]callback)
-GET https://api.mybitx.com/api/1/transactions
+GET https://api.luno.com/api/1/transactions
 
 Default options:
 ```javascript
@@ -253,7 +253,7 @@ bitx.getTransactions('XBT', {offset: 5, limit: 20}, function(err, transactions) 
 ```
 
 ### getWithdrawals(callback)
-GET https://api.mybitx.com/api/1/withdrawals
+GET https://api.luno.com/api/1/withdrawals
 
 Example:
 
@@ -262,7 +262,7 @@ bitx.getWithdrawals(function(err, withdrawals) {});
 ```
 
 ### getWithdrawal(withdrawalId, callback)
-GET https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
+GET https://api.luno.com/api/1/withdrawals/{withdrawalId}
 
 Example:
 
@@ -271,7 +271,7 @@ bitx.getWithdrawal('1212', function(err, withdrawal) {});
 ```
 
 ### requestWithdrawal(type, amount, callback)
-POST https://api.mybitx.com/api/1/withdrawals
+POST https://api.luno.com/api/1/withdrawals
 
 Example:
 
@@ -280,7 +280,7 @@ bitx.requestWithdrawal('ZAR_EFT', 1000, function(err, withdrawal) {});
 ```
 
 ### cancelWithdrawal(withdrawalId, callback)
-DELETE https://api.mybitx.com/api/1/withdrawals/{withdrawalId}
+DELETE https://api.luno.com/api/1/withdrawals/{withdrawalId}
 
 Example:
 

@@ -1,6 +1,7 @@
 ### 1.7.1
 
 * Parse Luno API errors
+* Update domain to `api.luno.com`
 
 ### 1.7.0
 
