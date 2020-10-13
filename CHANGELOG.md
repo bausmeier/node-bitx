@@ -1,3 +1,7 @@
+### 1.8.0 (2020-10-13)
+
+* Add promise support for all methods. When `callback` parameter is not provided, the methods return a promise
+
 ### 1.7.1
 
 * Parse Luno API errors
