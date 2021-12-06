@@ -60,7 +60,7 @@ tap.test('BitX constructor', {autoend: true}, function (t) {
 tap.test('Internal', {autoend: true}, function (t) {
   var keyId = '12345'
   var keySecret = '0000000000000000'
-  var path = 'test'
+  var path = '/api/1/test'
 
   var expectedOptions = {
     headers: {
@@ -68,7 +68,7 @@ tap.test('Internal', {autoend: true}, function (t) {
       'Accept-Charset': 'utf-8'
     },
     hostname: 'api.luno.com',
-    path: '/api/1/' + path,
+    path: path,
     port: 443,
     auth: keyId + ':' + keySecret
   }
@@ -145,70 +145,70 @@ tap.test('External', {autoend: true}, function (t) {
   })
 
   t.test('getTicker should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'ticker', {pair: 'XBTZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/ticker', {pair: 'XBTZAR'}, callback)
     bitx.getTicker(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getTicker should accept a pair option', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'ticker', {pair: 'XBTMYR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/ticker', {pair: 'XBTMYR'}, callback)
     bitx.getTicker({pair: 'XBTMYR'}, callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getAllTickers should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'tickers', null, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/tickers', null, callback)
     bitx.getAllTickers(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getOrderBook should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'orderbook', {pair: 'XBTZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/orderbook', {pair: 'XBTZAR'}, callback)
     bitx.getOrderBook(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getOrderBook should accept a pair option', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'orderbook', {pair: 'XBTMYR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/orderbook', {pair: 'XBTMYR'}, callback)
     bitx.getOrderBook({pair: 'XBTMYR'}, callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getTrades should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/trades', {pair: 'XBTZAR'}, callback)
     bitx.getTrades(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getTrades should accept a pair option', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'trades', {pair: 'XBTMYR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/trades', {pair: 'XBTMYR'}, callback)
     bitx.getTrades({pair: 'XBTMYR'}, callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getOrderList should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'listorders', {pair: 'XBTZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/listorders', {pair: 'XBTZAR'}, callback)
     bitx.getOrderList(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getOrderList should accept a pair option', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'listorders', {pair: 'XBTMYR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/listorders', {pair: 'XBTMYR'}, callback)
     bitx.getOrderList({pair: 'XBTMYR'}, callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getLimits should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'BTCZAR/getlimits', null, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/BTCZAR/getlimits', null, callback)
     bitx.getLimits(callback)
     mock.verify()
     tt.end()
@@ -221,7 +221,7 @@ tap.test('External', {autoend: true}, function (t) {
       price: 0.001,
       pair: 'XBTZAR'
     }
-    mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
+    mock.expects('_request').once().withArgs('POST', '/api/1/postorder', parameters, callback)
     bitx.postBuyOrder(parameters.volume, parameters.price, callback)
     mock.verify()
     tt.end()
@@ -233,7 +233,7 @@ tap.test('External', {autoend: true}, function (t) {
       counter_volume: 9999.99,
       pair: 'XBTZAR'
     }
-    mock.expects('_request').once().withArgs('POST', 'marketorder', parameters, callback)
+    mock.expects('_request').once().withArgs('POST', '/api/1/marketorder', parameters, callback)
     bitx.postMarketBuyOrder(parameters.counter_volume, callback)
     mock.verify()
     tt.end()
@@ -246,7 +246,7 @@ tap.test('External', {autoend: true}, function (t) {
       price: 9999.99,
       pair: 'XBTZAR'
     }
-    mock.expects('_request').once().withArgs('POST', 'postorder', parameters, callback)
+    mock.expects('_request').once().withArgs('POST', '/api/1/postorder', parameters, callback)
     bitx.postSellOrder(parameters.volume, parameters.price, callback)
     mock.verify()
     tt.end()
@@ -258,7 +258,7 @@ tap.test('External', {autoend: true}, function (t) {
       base_volume: 9999.99,
       pair: 'XBTZAR'
     }
-    mock.expects('_request').once().withArgs('POST', 'marketorder', parameters, callback)
+    mock.expects('_request').once().withArgs('POST', '/api/1/marketorder', parameters, callback)
     bitx.postMarketSellOrder(parameters.base_volume, callback)
     mock.verify()
     tt.end()
@@ -266,28 +266,28 @@ tap.test('External', {autoend: true}, function (t) {
 
   t.test('stopOrder should call _request with the correct parameters', function (tt) {
     var body = {order_id: 'BXMC2CJ7HNB88U4'}
-    mock.expects('_request').once().withArgs('POST', 'stoporder', body, callback)
+    mock.expects('_request').once().withArgs('POST', '/api/1/stoporder', body, callback)
     bitx.stopOrder(body.order_id, callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getBalance should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'balance', null, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/balance', null, callback)
     bitx.getBalance(callback)
     mock.verify()
     tt.end()
   })
 
   t.test('getBalance should accept an asset argument and call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'balance', {asset: 'ZAR'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/balance', {asset: 'ZAR'}, callback)
     bitx.getBalance('ZAR', callback)
     mock.verify()
     tt.end()
   })
 
   t.test('should call _request with the correct parameters', function (tt) {
-    mock.expects('_request').once().withArgs('GET', 'funding_address', {asset: 'XBT'}, callback)
+    mock.expects('_request').once().withArgs('GET', '/api/1/funding_address', {asset: 'XBT'}, callback)
     bitx.getFundingAddress('XBT', callback)
     mock.verify()
     tt.end()

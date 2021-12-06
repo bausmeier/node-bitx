@@ -11,7 +11,7 @@ Add bitx as a dependency:
 $ npm install --save bitx
 ```
 
-### BitX([keyId, keySecret, ][options])
+### BitX([keyId, keySecret][options])
 To access the private Luno API methods you must supply your key id and key secret as the first two arguments. If you are only accessing the public API endpoints you can leave these two arguments out.
 
 The optional `options` argument can be used to override the default options. The default options are equivalent to:
@@ -36,7 +36,7 @@ The arguments passed to the callback function for each method are:
 
 The `callback` function is optional. If the `callback` is not provided, the methods return a promise. 
 
-### getTicker([options, ][callback])
+### getTicker([options][, callback])
 GET https://api.luno.com/api/1/ticker/XBTZAR
 
 Default options:
@@ -62,7 +62,7 @@ Example:
 bitx.getAllTickers(function(err, tickers) {});
 ```
 
-### getOrderBook([options, ][callback])
+### getOrderBook([options][, callback])
 GET https://api.luno.com/api/1/orderbook
 
 Default options:
@@ -79,7 +79,7 @@ Example:
 bitx.getOrderBook(function(err, orderBook) {});
 ```
 
-### getTrades([options, ][callback])
+### getTrades([options][, callback])
 GET https://api.luno.com/api/1/trades
 
 Default options:
@@ -96,7 +96,7 @@ Example:
 bitx.getTrades(function(err, trades) {});
 ```
 
-### getTradeList([options, ][callback])
+### getTradeList([options][, callback])
 GET https://api.luno.com/api/1/listtrades
 
 Default options:
@@ -113,7 +113,7 @@ Example:
 bitx.getTradeList({sort_desc: true, limit: 10}, function(err, tradeList) {});
 ```
 
-### getOrderList([options, ][callback])
+### getOrderList([options][, callback])
 GET https://api.luno.com/api/1/listorders
 
 Default options:
@@ -131,7 +131,34 @@ Example:
 bitx.getOrderList({state: 'PENDING'}, function(err, orderList) {});
 ```
 
-### getBalance([asset, ][callback])
+### getOrderListV2([options][, callback])
+GET https://api.luno.com/api/exchange/2/listorders
+
+Default options:
+
+```javascript
+{
+  pair: bitx.pair,
+  state: undefined
+}
+```
+
+Example:
+
+```javascript
+bitx.getOrderListV2({ closed: true }, function(err, orderList) {});
+```
+
+### getOrderListV3(options[, callback])
+GET https://api.luno.com/api/exchange/3/order
+
+Example:
+
+```javascript
+bitx.getOrderListV3({id: 'BXMC2CJ7HNB88U4' }, function(err, orderList) {});
+```
+
+### getBalance([asset][, callback])
 GET https://api.luno.com/api/1/balance
 
 Example:
@@ -140,7 +167,7 @@ Example:
 bitx.getBalance('ZAR', function(err, balance) {});
 ```
 
-### getFundingAddress(asset, [options, ][callback])
+### getFundingAddress(asset[, options][, callback])
 GET https://api.luno.com/api/1/funding_address
 
 Default options:
@@ -157,7 +184,7 @@ Example:
 bitx.getFundingAddress('XBT', {address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'}, function(err, fundingAddress) {});
 ```
 
-### createFundingAddress(asset, [callback])
+### createFundingAddress(asset[, callback])
 POST https://api.luno.com/api/1/funding_address
 
 Example:
@@ -166,7 +193,7 @@ Example:
 bitx.createFundingAddress('XBT', function(err, fundingAddress) {});
 ```
 
-### getFeeInfo([options, ][callback])
+### getFeeInfo([options][, callback])
 GET https://api.luno.com/api/1/fee_info
 
 Default options:
@@ -183,7 +210,7 @@ Example:
 bitx.getFeeInfo({pair: 'XBTZAR'}, function(err, feeInfo) {});
 ```
 
-### postBuyOrder(volume, price, [options, ][callback])
+### postBuyOrder(volume, price[, options][, callback])
 POST https://api.luno.com/api/1/postorder
 
 Example:
@@ -192,7 +219,7 @@ Example:
 bitx.postBuyOrder(9999.99, 0.01, function(err, order) {});
 ```
 
-### postSellOrder(volume, price, [options, ][callback])
+### postSellOrder(volume, price[, options][, callback])
 POST https://api.luno.com/api/1/postorder
 
 Example:
@@ -201,7 +228,7 @@ Example:
 bitx.postSellOrder(0.01, 9999.99, function(err, order) {});
 ```
 
-### postMarketBuyOrder(volume, [options, ][callback])
+### postMarketBuyOrder(volume[, options][, callback])
 POST https://api.luno.com/api/1/marketorder
 
 Example:
@@ -210,7 +237,7 @@ Example:
 bitx.postMarketBuyOrder(0.01, function(err, order) {});
 ```
 
-### postMarketSellOrder(volume, [options, ][callback])
+### postMarketSellOrder(volume[, options][, callback])
 POST https://api.luno.com/api/1/marketorder
 
 Example:
@@ -219,7 +246,7 @@ Example:
 bitx.postMarketSellOrder(0.01, function(err, order) {});
 ```
 
-### stopOrder(orderId, [callback])
+### stopOrder(orderId[, callback])
 POST https://api.luno.com/api/1/stoporder
 
 Example:
@@ -228,7 +255,7 @@ Example:
 bitx.stopOrder('BXMC2CJ7HNB88U4', function(err, result) {});
 ```
 
-### getOrder(orderId, [callback])
+### getOrder(orderId[, callback])
 GET https://api.luno.com/api/1/orders/{orderId}
 
 Example:
@@ -237,7 +264,16 @@ Example:
 bitx.getOrder('BXHW6PFRRXKFSB4', function(err, result) {});
 ```
 
-### getTransactions(asset, [options, ][callback])
+### getOrderV2(orderId[, callback])
+GET https://api.luno.com/api/exchange/2/orders/{orderId}
+
+Example:
+
+```javascript
+bitx.getOrder('BXHW6PFRRXKFSB4', function(err, result) {});
+```
+
+### getTransactions(asset[, options][, callback])
 GET https://api.luno.com/api/1/transactions
 
 Default options:
@@ -263,7 +299,7 @@ Example:
 bitx.getWithdrawals(function(err, withdrawals) {});
 ```
 
-### getWithdrawal(withdrawalId, [callback])
+### getWithdrawal(withdrawalId[, callback])
 GET https://api.luno.com/api/1/withdrawals/{withdrawalId}
 
 Example:
@@ -272,7 +308,7 @@ Example:
 bitx.getWithdrawal('1212', function(err, withdrawal) {});
 ```
 
-### requestWithdrawal(type, amount, [callback])
+### requestWithdrawal(type, amount[, callback])
 POST https://api.luno.com/api/1/withdrawals
 
 Example:
@@ -281,7 +317,7 @@ Example:
 bitx.requestWithdrawal('ZAR_EFT', 1000, function(err, withdrawal) {});
 ```
 
-### cancelWithdrawal(withdrawalId, [callback])
+### cancelWithdrawal(withdrawalId[, callback])
 DELETE https://api.luno.com/api/1/withdrawals/{withdrawalId}
 
 Example:

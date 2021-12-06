@@ -1,3 +1,7 @@
+### 1.9.0 (2021-12-06)
+
+* Add methods getOrderListV2, getOrderV2, getOrderV3
+
 ### 1.8.0 (2020-10-13)
 
 * Add promise support for all methods. When `callback` parameter is not provided, the methods return a promise
