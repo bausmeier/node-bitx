@@ -1,3 +1,7 @@
+### 1.9.1 (2022-06-20)
+
+* Fix https request error handling when no `callback` parameter (promises)
+
 ### 1.9.0 (2021-12-06)
 
 * Add methods getOrderListV2, getOrderV2, getOrderV3
