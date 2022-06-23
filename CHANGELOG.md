@@ -1,3 +1,8 @@
+### 1.10.0 (2022-06-20)
+
+* Add `apiCallRate` property
+* Update tests
+
 ### 1.9.1 (2022-06-20)
 
 * Fix https request error handling when no `callback` parameter (promises)

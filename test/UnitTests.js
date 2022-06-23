@@ -77,12 +77,11 @@ tap.test('Internal', {autoend: true}, function (t) {
   var request = sinon.stub(https, 'request')
   var stub = request.withArgs(sinon.match(expectedOptions))
 
-  t.afterEach(function (done) {
+  t.afterEach(function () {
     stub.reset()
-    done()
   })
 
-  t.tearDown(function () {
+  t.teardown(function () {
     request.restore()
   })
 
@@ -90,8 +89,8 @@ tap.test('Internal', {autoend: true}, function (t) {
     var expectedResult = {success: true}
     stub.returns(new FakeRequest(expectedResult))
     bitx._request('GET', path, null, function (err, result) {
-      tt.ifErr(err)
-      tt.deepEqual(result, expectedResult)
+      tt.error(err)
+      tt.same(result, expectedResult)
       tt.end()
     })
   })
@@ -134,14 +133,12 @@ tap.test('External', {autoend: true}, function (t) {
   var callback = function () {}
   var mock
 
-  t.beforeEach(function (done) {
+  t.beforeEach(function () {
     mock = sinon.mock(bitx)
-    done()
   })
 
-  t.afterEach(function (done) {
+  t.afterEach(function () {
     mock.restore()
-    done()
   })
 
   t.test('getTicker should call _request with the correct parameters', function (tt) {

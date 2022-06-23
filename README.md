@@ -25,6 +25,23 @@ The optional `options` argument can be used to override the default options. The
 }
 ```
 
+## Properties
+
+### apiCallRate
+
+Gives the current rate per minute of API calls. The property is read only.
+It can be used by applications to limit the API call rate to prevent HTTP error code `429` (too many requests) responses from Luno server.
+See Luno API documentation for applicable rate limitations: https://www.luno.com/en/developers/api#tag/Rate-Limiting
+
+> API calls which result in error code `429` or `ErrTooManyRequests` are considered failed/unprocessed server request and are not added to the `apiCallRate` counter
+
+Example:
+
+```javascript
+console.log(bitx.apiCallRate)
+```
+
+
 ## Methods
 For details about the API endpoints see https://www.luno.com/en/developers/api.
 

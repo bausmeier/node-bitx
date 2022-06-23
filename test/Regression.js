@@ -6,7 +6,7 @@ var fs = require('fs')
 var path = require('path')
 var tap = require('tap')
 
-tap.test('GET after POST', function (t) {
+tap.test('GET after POST', (t) => {
   var options = {
     key: fs.readFileSync(path.join(__dirname, 'ssl', 'server', 'test.key')),
     cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server', 'test.crt'))
@@ -19,12 +19,11 @@ tap.test('GET after POST', function (t) {
       ca: fs.readFileSync(path.join(__dirname, 'ssl', 'ca', 'root.pem'))
     })
 
-    t.afterEach(function (done) {
+    t.afterEach(function () {
       server.removeAllListeners('request')
-      done()
     })
 
-    t.tearDown(function (done) {
+    t.teardown(function (done) {
       server.close(done)
     })
 
@@ -37,7 +36,7 @@ tap.test('GET after POST', function (t) {
       })
 
       bitx.postBuyOrder(9999.99, 0.0001, function (err, order) {
-        t.ifErr(err)
+        t.error(err)
 
         server.once('request', function (req, res) {
           t.notOk(req.headers['content-type'])
@@ -46,7 +45,7 @@ tap.test('GET after POST', function (t) {
         })
 
         bitx.getTicker(function (err, ticker) {
-          t.ifErr(err)
+          t.error(err)
           t.end()
         })
       })

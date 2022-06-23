@@ -19,12 +19,11 @@ var options = {
 }
 var server = https.createServer(options).listen(port, 'localhost')
 
-tap.afterEach(function (done) {
+tap.afterEach(function () {
   server.removeAllListeners('request')
-  done()
 })
 
-tap.tearDown(function (done) {
+tap.teardown(function (done) {
   server.close(done)
 })
 
@@ -45,8 +44,8 @@ tap.test('getTicker returns expected ticker', function (t) {
   })
 
   bitx.getTicker(function (err, ticker) {
-    t.ifErr(err)
-    t.deepEqual(ticker, expectedTicker)
+    t.error(err)
+    t.same(ticker, expectedTicker)
     t.end()
   })
 })
@@ -80,8 +79,8 @@ tap.test('getAllTickers returns expected tickers', function (t) {
   })
 
   bitx.getAllTickers(function (err, tickers) {
-    t.ifErr(err)
-    t.deepEqual(tickers, expectedTickers)
+    t.error(err)
+    t.same(tickers, expectedTickers)
     t.end()
   })
 })
@@ -108,8 +107,8 @@ tap.test('getOrderBook returns the expected order book', function (t) {
   })
 
   bitx.getOrderBook(function (err, orderBook) {
-    t.ifErr(err)
-    t.deepEqual(orderBook, expectedOrderBook)
+    t.error(err)
+    t.same(orderBook, expectedOrderBook)
     t.end()
   })
 })
@@ -130,8 +129,8 @@ tap.test('getTrades should return the expected trades', function (t) {
   })
 
   bitx.getTrades(function (err, trades) {
-    t.ifErr(err)
-    t.deepEqual(trades, expectedTrades)
+    t.error(err)
+    t.same(trades, expectedTrades)
     t.end()
   })
 })
@@ -162,8 +161,8 @@ tap.test('getOrderList should return the expected order list', function (t) {
   })
 
   bitx.getOrderList(function (err, orderList) {
-    t.ifErr(err)
-    t.deepEqual(orderList, expectedOrderList)
+    t.error(err)
+    t.same(orderList, expectedOrderList)
     t.end()
   })
 })
@@ -197,8 +196,8 @@ tap.test('getOrderList should return the expected order list for the given state
     state: 'PENDING'
   }
   bitx.getOrderList(options, function (err, orderList) {
-    t.ifErr(err)
-    t.deepEqual(orderList, expectedOrderList)
+    t.error(err)
+    t.same(orderList, expectedOrderList)
     t.end()
   })
 })
@@ -207,31 +206,31 @@ tap.test('getTradeList should return the expected trade list', function (t) {
   var expectedTradeList = {
     trades: [
       {
-        pair: "XBTZAR",
+        pair: 'XBTZAR',
         sequence: 7562242,
-        order_id: "BXCYRHZZJT9XZP9",
-        type: "ASK",
+        order_id: 'BXCYRHZZJT9XZP9',
+        type: 'ASK',
         timestamp: 1579472779614,
-        price: "131671.00",
-        volume: "0.079446",
-        base: "0.079446",
-        counter: "10460.734266",
-        fee_base: "0.00",
-        fee_counter: "0.00",
+        price: '131671.00',
+        volume: '0.079446',
+        base: '0.079446',
+        counter: '10460.734266',
+        fee_base: '0.00',
+        fee_counter: '0.00',
         is_buy: true
       },
       {
-        pair: "XBTZAR",
+        pair: 'XBTZAR',
         sequence: 7562151,
-        order_id: "BXBVV69D2J4ZMDG",
-        type: "BID",
+        order_id: 'BXBVV69D2J4ZMDG',
+        type: 'BID',
         timestamp: 1579472099102,
-        price: "132021.00",
-        volume: "0.124201",
-        base: "0.124201",
-        counter: "16397.140221",
-        fee_base: "0.00",
-        fee_counter: "0.00",
+        price: '132021.00',
+        volume: '0.124201',
+        base: '0.124201',
+        counter: '16397.140221',
+        fee_base: '0.00',
+        fee_counter: '0.00',
         is_buy: false
       }
     ]
@@ -244,8 +243,8 @@ tap.test('getTradeList should return the expected trade list', function (t) {
   })
 
   bitx.getTradeList(function (err, orderList) {
-    t.ifErr(err)
-    t.deepEqual(orderList, expectedTradeList)
+    t.error(err)
+    t.same(orderList, expectedTradeList)
     t.end()
   })
 })
@@ -254,17 +253,17 @@ tap.test('getOrderList should return the expected trade list with expected limit
   var expectedOrderList = {
     trades: [
       {
-        pair: "XBTZAR",
+        pair: 'XBTZAR',
         sequence: 7562242,
-        order_id: "BXCYRHZZJT9XZP9",
-        type: "ASK",
+        order_id: 'BXCYRHZZJT9XZP9',
+        type: 'ASK',
         timestamp: 1579472779614,
-        price: "131671.00",
-        volume: "0.079446",
-        base: "0.079446",
-        counter: "10460.734266",
-        fee_base: "0.00",
-        fee_counter: "0.00",
+        price: '131671.00',
+        volume: '0.079446',
+        base: '0.079446',
+        counter: '10460.734266',
+        fee_base: '0.00',
+        fee_counter: '0.00',
         is_buy: true
       }
     ]
@@ -280,8 +279,8 @@ tap.test('getOrderList should return the expected trade list with expected limit
     limit: 1
   }
   bitx.getTradeList(options, function (err, orderList) {
-    t.ifErr(err)
-    t.deepEqual(orderList, expectedOrderList)
+    t.error(err)
+    t.same(orderList, expectedOrderList)
     t.end()
   })
 })
@@ -299,8 +298,8 @@ tap.test('getLimits should return the expected limits', function (t) {
   })
 
   bitx.getLimits(function (err, limits) {
-    t.ifErr(err)
-    t.deepEqual(limits, expectedLimits)
+    t.error(err)
+    t.same(limits, expectedLimits)
     t.end()
   })
 })
@@ -319,8 +318,8 @@ tap.test('getFeeInfo should return the expected fee info', function (t) {
   })
 
   bitx.getFeeInfo(function (err, limits) {
-    t.ifErr(err)
-    t.deepEqual(limits, expectedFeeInfo)
+    t.error(err)
+    t.same(limits, expectedFeeInfo)
     t.end()
   })
 })
@@ -339,8 +338,8 @@ tap.test('getFeeInfo should accept options', function (t) {
   })
 
   bitx.getFeeInfo({pair: 'XBTZAR'}, function (err, limits) {
-    t.ifErr(err)
-    t.deepEqual(limits, expectedFeeInfo)
+    t.error(err)
+    t.same(limits, expectedFeeInfo)
     t.end()
   })
 })
@@ -369,8 +368,8 @@ tap.test('postBuyOrder should post the correct fields and return an order id', f
   })
 
   bitx.postBuyOrder(volume, price, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -399,8 +398,8 @@ tap.test('postBuyOrder should accept options', function (t) {
   })
 
   bitx.postBuyOrder(volume, price, {post_only: true}, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -440,8 +439,8 @@ tap.test('postMarketBuyOrder should post the correct fields and return an order 
   })
 
   bitx.postMarketBuyOrder('100.50', function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -466,8 +465,8 @@ tap.test('postMarketBuyOrder should accept options', function (t) {
   })
 
   bitx.postMarketBuyOrder('100.50', {base_account_id: 12345}, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -496,8 +495,8 @@ tap.test('postSellOrder should post the correct fields and return an order id', 
   })
 
   bitx.postSellOrder(volume, price, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -526,8 +525,8 @@ tap.test('postSellOrder should accept options', function (t) {
   })
 
   bitx.postSellOrder(volume, price, {post_only: true}, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -552,8 +551,8 @@ tap.test('postMarketSellOrder should post the correct fields and return an order
   })
 
   bitx.postMarketSellOrder('100.50', function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -578,8 +577,8 @@ tap.test('postMarketSellOrder should accept options', function (t) {
   })
 
   bitx.postMarketSellOrder('100.50', {base_account_id: 12345}, function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -604,8 +603,8 @@ tap.test('stopOrder should post the order id and return success', function (t) {
   })
 
   bitx.stopOrder(orderId, function (err, result) {
-    t.ifErr(err)
-    t.deepEqual(result, expectedResult)
+    t.error(err)
+    t.same(result, expectedResult)
     t.end()
   })
 })
@@ -659,8 +658,8 @@ tap.test('getOrder should return the order', function (t) {
   })
 
   bitx.getOrder('BXHW6PFRRXKFSB4', function (err, order) {
-    t.ifErr(err)
-    t.deepEqual(order, expectedOrder)
+    t.error(err)
+    t.same(order, expectedOrder)
     t.end()
   })
 })
@@ -691,8 +690,8 @@ tap.test('getBalance should return all balances when no asset parameter is provi
   })
 
   bitx.getBalance(function (err, balances) {
-    t.ifErr(err)
-    t.deepEqual(balances, expectedBalances)
+    t.error(err)
+    t.same(balances, expectedBalances)
     t.end()
   })
 })
@@ -715,8 +714,8 @@ tap.test('getBalance should return the balance for the specified asset', functio
   })
 
   bitx.getBalance('ZAR', function (err, balances) {
-    t.ifErr(err)
-    t.deepEqual(balances, expectedBalances)
+    t.error(err)
+    t.same(balances, expectedBalances)
     t.end()
   })
 })
@@ -736,8 +735,8 @@ tap.test('getFundingAddress should return the funding address', function (t) {
   })
 
   bitx.getFundingAddress('XBT', function (err, fundingAddress) {
-    t.ifErr(err)
-    t.deepEqual(fundingAddress, expectedFundingAddress)
+    t.error(err)
+    t.same(fundingAddress, expectedFundingAddress)
     t.end()
   })
 })
@@ -760,8 +759,8 @@ tap.test('getFundingAddress should return the funding address specified', functi
     address: 'B1tC0InExAMPL3fundIN6AdDreS5t0Use'
   }
   bitx.getFundingAddress('XBT', options, function (err, fundingAddress) {
-    t.ifErr(err)
-    t.deepEqual(fundingAddress, expectedFundingAddress)
+    t.error(err)
+    t.same(fundingAddress, expectedFundingAddress)
     t.end()
   })
 })
@@ -789,8 +788,8 @@ tap.test('createFundingAddress should return a new funding address', function (t
   })
 
   bitx.createFundingAddress('XBT', function (err, fundingAddress) {
-    t.ifErr(err)
-    t.deepEqual(fundingAddress, expectedFundingAddress)
+    t.error(err)
+    t.same(fundingAddress, expectedFundingAddress)
     t.end()
   })
 })
@@ -827,8 +826,8 @@ tap.test('getTransactions should return the transactions', function (t) {
   })
 
   bitx.getTransactions('XBT', function (err, transactions) {
-    t.ifErr(err)
-    t.deepEqual(transactions, expectedTransactions)
+    t.error(err)
+    t.same(transactions, expectedTransactions)
     t.end()
   })
 })
@@ -869,8 +868,8 @@ tap.test('getTransactions should send options and return the transactions', func
     limit: 5
   }
   bitx.getTransactions('XBT', options, function (err, transactions) {
-    t.ifErr(err)
-    t.deepEqual(transactions, expectedTransactions)
+    t.error(err)
+    t.same(transactions, expectedTransactions)
     t.end()
   })
 })
@@ -896,8 +895,8 @@ tap.test('getWithdrawals should return the withdrawals', function (t) {
   })
 
   bitx.getWithdrawals(function (err, withdrawals) {
-    t.ifErr(err)
-    t.deepEqual(withdrawals, expectedWithdrawls)
+    t.error(err)
+    t.same(withdrawals, expectedWithdrawls)
     t.end()
   })
 })
@@ -915,8 +914,8 @@ tap.test('getWithdrawal should return the withdrawal', function (t) {
   })
 
   bitx.getWithdrawal('1212', function (err, withdrawal) {
-    t.ifErr(err)
-    t.deepEqual(withdrawal, expectedWithdrawal)
+    t.error(err)
+    t.same(withdrawal, expectedWithdrawal)
     t.end()
   })
 })
@@ -943,8 +942,8 @@ tap.test('requestWithdrawal should post the correct fields and return a new with
   })
 
   bitx.requestWithdrawal('ZAR_EFT', 1000, function (err, withdrawal) {
-    t.ifErr(err)
-    t.deepEqual(withdrawal, expectedWithdrawal)
+    t.error(err)
+    t.same(withdrawal, expectedWithdrawal)
     t.end()
   })
 })
@@ -962,8 +961,53 @@ tap.test('cancelWithdrawal should delete the specified withdrawal', function (t)
   })
 
   bitx.cancelWithdrawal('1212', function (err, withdrawal) {
-    t.ifErr(err)
-    t.deepEqual(withdrawal, expectedWithdrawal)
+    t.error(err)
+    t.same(withdrawal, expectedWithdrawal)
     t.end()
   })
+})
+
+tap.test('apiCallRate should return expected number of API calls', function (t) {
+  var apiCalls = 32
+  var expectedRate = bitx.apiCallRate + apiCalls
+  for (var i = 0; i < apiCalls; i += 1) {
+    bitx.getTicker(function (err, ticker) {
+    })
+  }
+  t.equal(bitx.apiCallRate, expectedRate)
+  t.end()
+})
+
+tap.test('apiCallRate should refresh after one minute ', function (t) {
+  t.equal(bitx.apiCallRate > 0, true)
+  setTimeout(function () {
+    t.equal(bitx._requestMts.length, 0)
+    t.end()
+  }, 60000)
+})
+
+tap.test('apiCallRate should refresh when called ', function (t) {
+  var expectedRate = 32
+
+  for (var i = 0; i < expectedRate; i += 1) {
+    bitx.getTicker(function (err, ticker) {
+    })
+  }
+
+  setTimeout(function () {
+    for (var i = 0; i < expectedRate; i += 1) {
+      bitx.getTicker(function (err, ticker) {
+      })
+    }
+    t.equal(bitx.apiCallRate, 2 * expectedRate)
+  }, 300)
+
+  setTimeout(function () {
+    t.equal(bitx.apiCallRate, expectedRate)
+  }, 60000)
+
+  setTimeout(function () {
+    t.equal(bitx.apiCallRate, 0)
+    t.end()
+  }, 61000)
 })
